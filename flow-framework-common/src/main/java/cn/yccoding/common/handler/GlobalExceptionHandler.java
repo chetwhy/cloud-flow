@@ -1,17 +1,21 @@
 package cn.yccoding.common.handler;
 
-import cn.yccoding.common.contants.ResultCodeEnum;
-import cn.yccoding.common.exception.CustomException;
-import cn.yccoding.common.vo.R;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import cn.yccoding.common.contants.ResultCodeEnum;
+import cn.yccoding.common.exception.CustomException;
+import cn.yccoding.common.util.ExceptionUtil;
+import cn.yccoding.common.vo.R;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Author YC
  * @create 2020/3/3
  * 全局异常处理
  */
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -19,7 +23,8 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler
     public R error(Exception e) {
-        e.printStackTrace();
+        //e.printStackTrace();
+        log.error(ExceptionUtil.getMessage(e));
         return R.error();
     }
 
@@ -27,7 +32,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NullPointerException.class)
     @ResponseBody
     public R error(NullPointerException e) {
-        e.printStackTrace();
+        log.error(ExceptionUtil.getMessage(e));
         return R.setResult(ResultCodeEnum.NULL_POINTER);
     }
 
@@ -35,7 +40,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CustomException.class)
     @ResponseBody
     public R error(CustomException e) {
-        e.printStackTrace();
+        log.error(ExceptionUtil.getMessage(e));
         return R.error().message(e.getMessage()).code(e.getCode());
     }
 

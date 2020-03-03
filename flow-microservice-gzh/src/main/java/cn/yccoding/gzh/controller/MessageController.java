@@ -3,6 +3,7 @@ package cn.yccoding.gzh.controller;
 import cn.yccoding.common.exception.CustomException;
 import cn.yccoding.common.vo.R;
 import cn.yccoding.gzh.util.OfficialAccountUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v1/msg")
+@Slf4j
 public class MessageController {
     private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
 
@@ -41,6 +43,8 @@ public class MessageController {
 
     @GetMapping("/hello")
     public R testResult() {
+        System.out.println("00000000000");
+        logger.info("come in...");
         if (1 == 1) {
             throw new CustomException(100, "test case...");
         }
