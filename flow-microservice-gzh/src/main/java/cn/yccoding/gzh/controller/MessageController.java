@@ -43,7 +43,6 @@ public class MessageController {
 
     @GetMapping("/hello")
     public R testResult() {
-        System.out.println("00000000000");
         logger.info("come in...");
         if (1 == 1) {
             throw new CustomException(100, "test case...");

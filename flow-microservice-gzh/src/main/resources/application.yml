@@ -1,2 +1,5 @@
 server:
   port: 9110
+spring:
+  application:
+    name: flow-gzh

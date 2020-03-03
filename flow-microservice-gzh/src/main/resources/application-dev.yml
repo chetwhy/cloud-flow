@@ -1,3 +1,6 @@
+profiles:
+  active: dev
+
 redis:
   active: false
 weChat:
@@ -7,8 +10,6 @@ weChat:
   INTERFACE_URL: http://chety.mynatapp.cc/api/v1/wechat/portal
   JS_DOMAIN:
   WEB_AUTH_DOMAIN:
-spring:
-  profiles:
-    active: dev
+
 #logging:
 #  level: info
