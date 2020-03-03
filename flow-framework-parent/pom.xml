@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <modules>
+        <module>../flow-microservice-gzh</module>
+        <module>../flow-framework-common</module>
+    </modules>
+    <!--模块信息-->
+    <groupId>cn.yccoding</groupId>
+    <artifactId>flow-framework-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>flow-framework-parent</name>
+    <description>云流平台maven父工程</description>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.7.RELEASE</version>
+        <relativePath/>
+    </parent>
+
+    <!--版本信息-->
+    <properties>
+        <java.version>1.8</java.version>
+        <lombok.version>1.16.22</lombok.version>
+        <fastjson.version>1.2.58</fastjson.version>
+        <jasypt.version>2.1.0</jasypt.version>
+        <common.version>1.0-SNAPSHOT</common.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- common module-->
+            <dependency>
+                <groupId>cn.yccoding</groupId>
+                <artifactId>flow-framework-common</artifactId>
+                <version>${common.version}</version>
+            </dependency>
+            <!--lombok-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+            <!--fastjson-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+            <!-- jasypt加密 -->
+            <dependency>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-spring-boot-starter</artifactId>
+                <version>${jasypt.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

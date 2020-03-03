@@ -1,0 +1,10 @@
+weChat:
+    APP_ID: wxa02348cd5ec17d28
+    APP_SECRET: ENC(QcmW6fG+sKsLxFa3k9AtAtcNs+QHsFXFuns+Xb2MR1gIv7kM+gwKQoftoMvO/S9o)
+    INTERFACE_URL: http://chety.mynatapp.cc/api/v1/wechat/portal
+    INTERFACE_TOKEN: 123qwe
+    JS_DOMAIN:
+    WEB_AUTH_DOMAIN:
+
+redis:
+  active: false

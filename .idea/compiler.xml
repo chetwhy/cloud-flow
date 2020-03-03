@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="flow-microservice-gzh" />
+        <module name="flow-framework-common" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="flow-framework-common" target="1.8" />
+      <module name="flow-framework-parent" target="1.8" />
+      <module name="flow-microservice-gzh" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="flow-framework-common" options="-parameters" />
+      <module name="flow-framework-parent" options="-parameters" />
+      <module name="flow-microservice-gzh" options="-parameters" />
+    </option>
+  </component>
+</project>
