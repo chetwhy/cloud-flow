@@ -1,12 +1,13 @@
 package cn.yccoding.gzh.controller;
 
+import cn.yccoding.common.exception.CustomException;
+import cn.yccoding.common.vo.R;
+import cn.yccoding.gzh.util.OfficialAccountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import cn.yccoding.gzh.util.OfficialAccountUtil;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -36,5 +37,13 @@ public class MessageController {
         }
         logger.info("公众号接入成功,echostr:[{}]", echostr);
         return echostr;
+    }
+
+    @GetMapping("/hello")
+    public R testResult() {
+        if (1 == 1) {
+            throw new CustomException(100, "test case...");
+        }
+        return R.ok().data("k1","v1");
     }
 }
