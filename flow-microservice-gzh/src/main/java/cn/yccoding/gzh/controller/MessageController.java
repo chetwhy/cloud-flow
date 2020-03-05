@@ -1,11 +1,11 @@
 package cn.yccoding.gzh.controller;
 
-import cn.yccoding.common.exception.CustomException;
-import cn.yccoding.common.vo.R;
+import cn.yccoding.gzh.service.RedisService;
 import cn.yccoding.gzh.util.OfficialAccountUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class MessageController {
     private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
+
+    @Autowired
+    private RedisService redisService;
 
     /**
      * 微信公众号url接入确认
@@ -41,12 +44,4 @@ public class MessageController {
         return echostr;
     }
 
-    @GetMapping("/hello")
-    public R testResult() {
-        logger.info("come in...");
-        if (1 == 1) {
-            throw new CustomException(100, "test case...");
-        }
-        return R.ok().data("k1","v1");
-    }
 }
