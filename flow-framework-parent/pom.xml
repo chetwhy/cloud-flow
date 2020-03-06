@@ -29,6 +29,7 @@
         <fastjson.version>1.2.58</fastjson.version>
         <jasypt.version>2.1.0</jasypt.version>
         <common.version>1.0-SNAPSHOT</common.version>
+        <javax.version>2.3.1</javax.version>
     </properties>
 
     <dependencyManagement>
@@ -56,6 +57,12 @@
                 <groupId>com.github.ulisesbocchio</groupId>
                 <artifactId>jasypt-spring-boot-starter</artifactId>
                 <version>${jasypt.version}</version>
+            </dependency>
+            <!--javax-->
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>${javax.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
