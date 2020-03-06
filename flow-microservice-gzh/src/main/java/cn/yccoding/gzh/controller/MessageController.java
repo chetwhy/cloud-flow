@@ -1,15 +1,17 @@
 package cn.yccoding.gzh.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
+import cn.yccoding.common.util.XmlConvertUtil;
 import cn.yccoding.gzh.model.RcvCommonMsg;
 import cn.yccoding.gzh.model.TextReplyMsg;
 import cn.yccoding.gzh.service.MessageService;
 import cn.yccoding.gzh.util.OfficialAccountUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.xml.bind.JAXBException;
 
 /**
  * @Author YC
@@ -45,8 +47,10 @@ public class MessageController {
     }
 
     @PostMapping("/portal")
-    public Object handleMessage(@RequestBody RcvCommonMsg rcvCommonMsg) {
+    public Object handleMessage(@RequestBody RcvCommonMsg rcvCommonMsg) throws JAXBException {
         TextReplyMsg replyMsg = messageService.handleMessage(rcvCommonMsg);
-        return replyMsg;
+        // TODO 暂不支持直接bean注解输出
+        return XmlConvertUtil.beanToXml(replyMsg, TextReplyMsg.class);
     }
+
 }
