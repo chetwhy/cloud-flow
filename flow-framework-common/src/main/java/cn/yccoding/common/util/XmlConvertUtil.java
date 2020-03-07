@@ -6,10 +6,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.io.Writer;
 
 /**
  * @Author YC
@@ -58,12 +56,9 @@ public class XmlConvertUtil {
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
-            marshaller.setProperty(CharacterEscapeHandler.class.getName(), new CharacterEscapeHandler() {
-                @Override
-                public void escape(char[] chars, int start, int length, boolean isAttVal, Writer writer) throws IOException {
-                    writer.write(chars,start,length);
-                }
-            });
+            // 不转义，根据需要添加
+            marshaller.setProperty(CharacterEscapeHandler.class.getName(),
+                (CharacterEscapeHandler)(chars, start, length, isAttVal, writer) -> writer.write(chars, start, length));
             StringWriter writer = new StringWriter();
             marshaller.marshal(obj, writer);
             result = writer.toString();

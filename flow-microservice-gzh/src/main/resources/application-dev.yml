@@ -1,8 +1,6 @@
 profiles:
   active: dev
 
-redis:
-  active: false
 weChat:
       APP_ID: wxa02348cd5ec17d28
       APP_SECRET: ENC(QcmW6fG+sKsLxFa3k9AtAtcNs+QHsFXFuns+Xb2MR1gIv7kM+gwKQoftoMvO/S9o)
@@ -21,6 +19,22 @@ spring:
     port: 6379
     #redis密码，默认为空
     password: ENC(saFOB3bDz+pe2xcxGSfc5USnZ+OvQhKY)
+  # mysql数据源配置
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://120.79.27.209:33306/flow_gzh?characterEncoding=utf8&useSSL=false
+    username: root
+    password: ENC(xQ/ZcWd0bfj9qaCd6qyNlA==)
+  # jpa配置
+  jpa:
+    show-sql: true
+    database: mysql
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+
 
 local:
-    active: true
+    active: false

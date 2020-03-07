@@ -1,13 +1,13 @@
 package cn.yccoding.gzh.model;
 
+import cn.yccoding.common.adapter.CDataAdapter;
 import cn.yccoding.gzh.constant.MsgType;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.util.List;
 
 /**
  * @Author YC
@@ -20,19 +20,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Accessors(chain = true)
 public class VoiceReplyMsg {
     @XmlElement(name = "ToUserName")
+    @XmlJavaTypeAdapter(CDataAdapter.class)
     private String toUserName;
 
     @XmlElement(name = "FromUserName")
+    @XmlJavaTypeAdapter(CDataAdapter.class)
     private String fromUserName;
 
     @XmlElement(name = "CreateTime")
     private Long createTime;
 
     @XmlElement(name = "MsgType")
+    @XmlJavaTypeAdapter(CDataAdapter.class)
     private final String msgType = MsgType.VOICE;
 
     // 通过素材管理中的接口上传多媒体文件，得到的id
+    @XmlElementWrapper(name = "Voice")
+    @XmlJavaTypeAdapter(CDataAdapter.class)
     @XmlElement(name = "MediaId")
-    private String mediaId;
+    private List<String> mediaId;
 
 }

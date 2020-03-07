@@ -1,6 +1,8 @@
 package cn.yccoding.gzh.model;
 
+import cn.yccoding.common.adapter.CDataAdapter;
 import cn.yccoding.gzh.constant.MsgType;
+import cn.yccoding.gzh.model.msg.Video;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -8,6 +10,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * @Author YC
@@ -21,27 +24,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class VideoReplyMsg {
 
     @XmlElement(name = "ToUserName")
+    @XmlJavaTypeAdapter(CDataAdapter.class)
     private String toUserName;
 
     @XmlElement(name = "FromUserName")
+    @XmlJavaTypeAdapter(CDataAdapter.class)
     private String fromUserName;
 
     @XmlElement(name = "CreateTime")
     private Long createTime;
 
     @XmlElement(name = "MsgType")
+    @XmlJavaTypeAdapter(CDataAdapter.class)
     private final String msgType= MsgType.VIDEO;
 
-    // 通过素材管理中的接口上传多媒体文件，得到的id
-    @XmlElement(name = "MediaId")
-    private String mediaId;
-
-    // 消息标题
-    @XmlElement(name = "Title")
-    private String title;
-
-    // 消息描述
-    @XmlElement(name = "Description")
-    private String description;
+    @XmlElement(name = "Video")
+    private Video video;
 
 }

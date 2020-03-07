@@ -1,5 +1,6 @@
 package cn.yccoding.gzh.controller;
 
+import cn.yccoding.common.util.JasyptUtil;
 import cn.yccoding.gzh.service.CommonGzhService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,5 +23,9 @@ public class HelloController {
     public R testResult() {
         String token = commonGzhService.getRedisAccessToken();
         return R.ok().data("k1",token);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(JasyptUtil.encyptPwd("yuan0420", "1234"));
     }
 }

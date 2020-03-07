@@ -1,7 +1,6 @@
 package cn.yccoding.gzh.service;
 
 import cn.yccoding.gzh.model.RcvCommonMsg;
-import cn.yccoding.gzh.model.TextReplyMsg;
 
 /**
  * @Author YC
@@ -9,5 +8,5 @@ import cn.yccoding.gzh.model.TextReplyMsg;
  * 微信消息处理服务
  */
 public interface MessageService {
-    TextReplyMsg handleMessage(RcvCommonMsg rcvCommonMsg);
+    String handleMessage(RcvCommonMsg rcvCommonMsg);
 }

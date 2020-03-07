@@ -2,7 +2,6 @@ package cn.yccoding.gzh.controller;
 
 import cn.yccoding.common.util.XmlConvertUtil;
 import cn.yccoding.gzh.model.RcvCommonMsg;
-import cn.yccoding.gzh.model.TextReplyMsg;
 import cn.yccoding.gzh.service.MessageService;
 import cn.yccoding.gzh.util.OfficialAccountUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -47,10 +46,12 @@ public class MessageController {
     }
 
     @PostMapping("/portal")
-    public Object handleMessage(@RequestBody RcvCommonMsg rcvCommonMsg) throws JAXBException {
-        TextReplyMsg replyMsg = messageService.handleMessage(rcvCommonMsg);
+    public String handleMessage(@RequestBody RcvCommonMsg rcvCommonMsg) throws JAXBException {
+        String replyMsg = messageService.handleMessage(rcvCommonMsg);
         // TODO 暂不支持直接bean注解输出
-        return XmlConvertUtil.beanToXml(replyMsg, TextReplyMsg.class);
+        String rcvMsg = XmlConvertUtil.beanToXml(rcvCommonMsg, RcvCommonMsg.class);
+        logger.info("公众号接收消息:[{}}, 回复消息:[{}]",rcvMsg,replyMsg);
+        return replyMsg;
     }
 
 }

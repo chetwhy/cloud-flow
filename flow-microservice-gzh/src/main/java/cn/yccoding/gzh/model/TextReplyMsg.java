@@ -26,7 +26,6 @@ public class TextReplyMsg{
     @XmlElement(name = "ToUserName")
     private String toUserName;
 
-
     @XmlJavaTypeAdapter(CDataAdapter.class)
     @XmlElement(name = "FromUserName")
     private String fromUserName;
@@ -34,11 +33,9 @@ public class TextReplyMsg{
     @XmlElement(name = "CreateTime")
     private Long createTime;
 
-
     @XmlJavaTypeAdapter(CDataAdapter.class)
     @XmlElement(name = "MsgType")
     private final String msgType = MsgType.TEXT;
-
 
     @XmlJavaTypeAdapter(CDataAdapter.class)
     @XmlElement(name = "Content")
