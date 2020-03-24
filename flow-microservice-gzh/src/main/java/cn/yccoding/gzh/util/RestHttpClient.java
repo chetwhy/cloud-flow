@@ -22,7 +22,7 @@ public class RestHttpClient {
 
     public String doPost(String toUrl, String requestJson) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         HttpEntity<String> httpEntity = new HttpEntity<>(requestJson, headers);
         return restTemplate.postForEntity(toUrl, httpEntity, String.class).getBody();
     }
