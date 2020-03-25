@@ -63,3 +63,4 @@ logs
 Thumbs.db
 Servers
 .metadata
+*.class
