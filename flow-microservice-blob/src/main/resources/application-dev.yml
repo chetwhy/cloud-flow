@@ -10,6 +10,4 @@ azure:
     account-name: chetwht
     account-key: ENC(47qpkA/jZZ80BZuBMtPLWsjqzweOJXg/Pp1V93H6O1ybBAfD0Kh0n5fD2hYc2/EbDhImXfcl9Y62kEwL0nY6igyHnjRaXlCEOuTzx8Mi558RPN+5ge7jYr9r5NxFjLBRJadv7SfTM6E=)
     endpoint-suffix: core.windows.net
-    container-reference: quickstartcontainer2
-    generate-thumbnail: false
 

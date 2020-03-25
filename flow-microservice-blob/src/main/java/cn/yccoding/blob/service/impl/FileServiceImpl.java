@@ -26,6 +26,8 @@ import static cn.yccoding.blob.config.ConstantPropertiesUtil.*;
 @Slf4j
 public class FileServiceImpl implements FileService {
 
+    private static final String DEFAULT_CONTAINER_REFERENCE = "default";
+
     @Override
     public List<BlobUpload> uploadFile(List<MultipartFile> fileList) {
         // 文件是否有内容
@@ -34,7 +36,8 @@ public class FileServiceImpl implements FileService {
         }
 
         // 获取blob容器
-        CloudBlobContainer container = BlobUtil.getAzureContainer(getStorageConnectionString(), CONTAINER_REFERENCE);
+        String containerReference = DEFAULT_CONTAINER_REFERENCE;  // TODO 可该根据业务需要修改，如id, type等
+        CloudBlobContainer container = BlobUtil.getAzureContainer(getStorageConnectionString(), containerReference);
         if (container == null) {
             log.error("获取blob container异常");
             throw new CustomException(ResultCodeEnum.GET_BLOB_CONTAINER_ERROR);

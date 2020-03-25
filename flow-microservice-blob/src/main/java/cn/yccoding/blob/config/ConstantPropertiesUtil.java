@@ -25,14 +25,10 @@ public class ConstantPropertiesUtil implements InitializingBean {
     @Value("${azure.storage.endpoint-suffix}")
     private String endpointSuffix;
 
-    @Value("${azure.storage.container-reference}")
-    private String containerReference;
-
     public static String DEFAULT_ENDPOINTS_PROTOCOL;
     public static String ACCOUNT_NAME;
     public static String ACCOUNT_KEY;
     public static String ENDPOINT_SUFFIX;
-    public static String CONTAINER_REFERENCE;
 
 
     @Override
@@ -41,6 +37,5 @@ public class ConstantPropertiesUtil implements InitializingBean {
         ACCOUNT_NAME = accountName;
         ACCOUNT_KEY = accountKey;
         ENDPOINT_SUFFIX = endpointSuffix;
-        CONTAINER_REFERENCE = containerReference;
     }
 }
