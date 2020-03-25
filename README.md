@@ -18,4 +18,4 @@ cloud-flow
 
 ## 启动说明
 
-1. **GzhApplication**：可直接启动。若携带加密参数启动，可使用JasyptUtil.encyptPwd(..)，本模块默认对AppSecret加密，启动脚本如：`--spring.profiles.active=local --jasypt.encryptor.password=123456`
+1. **GzhApplication**：可直接启动。若携带加密参数启动，可使用JasyptUtil.encyptPwd(..)，本模块默认对AppSecret加密，启动脚本如：`--spring.profiles.active=dev --jasypt.encryptor.password=123456`
