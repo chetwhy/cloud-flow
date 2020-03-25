@@ -1,0 +1,18 @@
+server:
+  port: 9210
+
+spring:
+  servlet:
+    multipart:    # spring mvc文件上传
+      max-request-size: 10MB
+      max-file-size: 1MB
+
+azure:
+  storage:
+    default-endpoints-protocol: https
+    account-name: chetwht
+    account-key: FDfXtwuke1spnYYqI4e3DJRy71j18WXRu17CE9WECEb52QUsfmVjMm3wV3U+5AfnVLdkvTeP9tkJPyr1ybQcgA==
+    endpoint-suffix: core.windows.net
+    container-reference: quickstartcontainer2
+    generate-thumbnail: false
+

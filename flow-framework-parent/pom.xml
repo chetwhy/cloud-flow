@@ -6,6 +6,7 @@
     <modules>
         <module>../flow-microservice-gzh</module>
         <module>../flow-framework-common</module>
+        <module>../flow-microservice-blob</module>
     </modules>
     <!--模块信息-->
     <groupId>cn.yccoding</groupId>
@@ -30,6 +31,7 @@
         <jasypt.version>2.1.0</jasypt.version>
         <common.version>1.0-SNAPSHOT</common.version>
         <javax.version>2.3.1</javax.version>
+        <azure-storage.version>0.2.0</azure-storage.version>
     </properties>
 
     <dependencyManagement>
@@ -63,6 +65,12 @@
                 <groupId>javax.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>
                 <version>${javax.version}</version>
+            </dependency>
+            <!--azure storage -->
+            <dependency>
+                <groupId>com.microsoft.azure</groupId>
+                <artifactId>azure-storage-spring-boot-starter</artifactId>
+                <version>${azure-storage.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

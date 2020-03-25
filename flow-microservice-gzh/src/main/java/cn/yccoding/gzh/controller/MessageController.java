@@ -5,8 +5,6 @@ import cn.yccoding.gzh.model.RcvCommonMsg;
 import cn.yccoding.gzh.service.MessageService;
 import cn.yccoding.gzh.util.OfficialAccountUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +19,6 @@ import javax.xml.bind.JAXBException;
 @RequestMapping("/api/v1/msg")
 @Slf4j
 public class MessageController {
-    private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
 
     @Autowired
     private MessageService messageService;
@@ -36,12 +33,12 @@ public class MessageController {
      */
     @GetMapping("/portal")
     public String validateAccess(String signature, String timestamp, String nonce, String echostr) {
-        logger.info("开始测试接入微信...");
+        log.info("开始测试接入微信...");
         if (!OfficialAccountUtil.checkSignature(signature, timestamp, nonce)) {
-            logger.error("公众号接入失败");
+            log.error("公众号接入失败");
             return null;
         }
-        logger.info("公众号接入成功,echostr:[{}]", echostr);
+        log.info("公众号接入成功,echostr:[{}]", echostr);
         return echostr;
     }
 
@@ -50,7 +47,7 @@ public class MessageController {
         String replyMsg = messageService.handleMessage(rcvCommonMsg);
         // TODO 暂不支持直接bean注解输出
         String rcvMsg = XmlConvertUtil.beanToXml(rcvCommonMsg, RcvCommonMsg.class);
-        logger.info("公众号接收消息:[{}}, 回复消息:[{}]",rcvMsg,replyMsg);
+        log.info("公众号接收消息:[{}}, 回复消息:[{}]",rcvMsg,replyMsg);
         return replyMsg;
     }
 

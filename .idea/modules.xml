@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/cloud-flow.iml" filepath="$PROJECT_DIR$/.idea/cloud-flow.iml" />
       <module fileurl="file://$PROJECT_DIR$/flow-framework-common/flow-framework-common.iml" filepath="$PROJECT_DIR$/flow-framework-common/flow-framework-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/flow-framework-parent/flow-framework-parent.iml" filepath="$PROJECT_DIR$/flow-framework-parent/flow-framework-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/flow-microservice-blob/flow-microservice-blob.iml" filepath="$PROJECT_DIR$/flow-microservice-blob/flow-microservice-blob.iml" />
       <module fileurl="file://$PROJECT_DIR$/flow-microservice-gzh/flow-microservice-gzh.iml" filepath="$PROJECT_DIR$/flow-microservice-gzh/flow-microservice-gzh.iml" />
     </modules>
   </component>

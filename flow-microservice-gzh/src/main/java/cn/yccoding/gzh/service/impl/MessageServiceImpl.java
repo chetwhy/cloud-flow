@@ -10,8 +10,7 @@ import cn.yccoding.gzh.model.TextReplyMsg;
 import cn.yccoding.gzh.model.VoiceReplyMsg;
 import cn.yccoding.gzh.repository.ReplyMessageRepository;
 import cn.yccoding.gzh.service.MessageService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +23,8 @@ import java.util.Arrays;
  * @create 2020/3/6
  */
 @Service
+@Slf4j
 public class MessageServiceImpl implements MessageService {
-    private static final Logger logger = LoggerFactory.getLogger(MessageServiceImpl.class);
 
     @Autowired
     private ReplyMessageRepository replyMessageRepository;
@@ -63,7 +62,7 @@ public class MessageServiceImpl implements MessageService {
                     break;
             }
         } catch (JAXBException e) {
-            logger.error("文本转换异常，接收:[{}]", rcvCommonMsg);
+            log.error("文本转换异常，接收:[{}]", rcvCommonMsg);
             String defaultBusy = replyMessageRepository.findByKeyword("default_busy").getText();
             return MessageFormat.format(defaultBusy, toUser, fromUser, createTime);
         }

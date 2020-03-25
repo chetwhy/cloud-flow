@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="flow-framework-common" />
+        <module name="flow-microservice-blob" />
         <module name="flow-microservice-gzh" />
         <module name="demo" />
       </profile>
@@ -15,6 +16,7 @@
       <module name="demo" target="1.8" />
       <module name="flow-framework-common" target="1.8" />
       <module name="flow-framework-parent" target="1.8" />
+      <module name="flow-microservice-blob" target="1.8" />
       <module name="flow-microservice-gzh" target="1.8" />
     </bytecodeTargetLevel>
   </component>
@@ -23,6 +25,7 @@
       <module name="demo" options="-parameters" />
       <module name="flow-framework-common" options="-parameters" />
       <module name="flow-framework-parent" options="-parameters" />
+      <module name="flow-microservice-blob" options="-parameters" />
       <module name="flow-microservice-gzh" options="-parameters" />
     </option>
   </component>
