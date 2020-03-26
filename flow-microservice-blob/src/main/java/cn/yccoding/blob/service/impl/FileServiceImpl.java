@@ -36,7 +36,7 @@ public class FileServiceImpl implements FileService {
         }
 
         // 获取blob容器
-        String containerReference = DEFAULT_CONTAINER_REFERENCE;  // TODO 可该根据业务需要修改，如id, type等
+        String containerReference = DEFAULT_CONTAINER_REFERENCE; // TODO 可该根据业务需要修改，如id, type等
         CloudBlobContainer container = BlobUtil.getAzureContainer(getStorageConnectionString(), containerReference);
         if (container == null) {
             log.error("获取blob container异常");
@@ -69,7 +69,8 @@ public class FileServiceImpl implements FileService {
 
                     // 返回图片URL
                     BlobUpload uploadResp = new BlobUpload();
-                    uploadResp.setFileName(file.getOriginalFilename()).setFileUrl(blob.getUri().toString());
+                    uploadResp.setFileOriginName(file.getOriginalFilename()).setFileBlobName(blob.getName())
+                        .setFileUrl(blob.getUri().toString());
 
                     // TODO 如果是图片生成缩略图
 
@@ -83,6 +84,22 @@ public class FileServiceImpl implements FileService {
         }
 
         return blobUploadRespList;
+    }
+
+    @Override
+    public void deleteContainer(String containerName, String blobName) {
+        CloudBlobContainer container = BlobUtil.getAzureContainer(getStorageConnectionString(), containerName);
+        if (container == null) {
+            log.error("获取blob container异常");
+            throw new CustomException(ResultCodeEnum.GET_BLOB_CONTAINER_ERROR);
+        }
+        try {
+            CloudBlob blob = container.getBlobReferenceFromServer(blobName);
+            blob.deleteIfExists();
+        } catch (Exception e) {
+            log.error("上传删除出现异常:[{}]", e.getMessage());
+            throw new CustomException(ResultCodeEnum.DELETE_BLOB_FAILED);
+        }
     }
 
     private String getStorageConnectionString() {

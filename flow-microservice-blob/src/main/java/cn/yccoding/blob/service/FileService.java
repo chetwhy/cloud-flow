@@ -18,4 +18,11 @@ public interface FileService {
      * @return
      */
     List<BlobUpload> uploadFile(List<MultipartFile> fileList);
+
+    /**
+     * 按containerReference删除
+     * @param containerName
+     * @param blobName
+     */
+    void deleteContainer(String containerName,String blobName);
 }

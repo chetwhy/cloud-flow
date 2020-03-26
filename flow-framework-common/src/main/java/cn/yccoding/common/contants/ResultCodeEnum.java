@@ -15,7 +15,8 @@ public enum  ResultCodeEnum {
     NULL_POINTER(false,20003,"空指针异常"),
     NO_FILE_CONTENT(false, 30001, "文件内容为空"),
     GET_BLOB_CONTAINER_ERROR(false, 30002, "获取blob容器错误"),
-    UPLOAD_BLOB_FAILED(false, 30003, "上传blob数据库失败");
+    UPLOAD_BLOB_FAILED(false, 30003, "上传blob数据库失败"),
+    DELETE_BLOB_FAILED(false, 30004, "删除blob数据库失败");
 
     // 响应是否成功
     private Boolean success;

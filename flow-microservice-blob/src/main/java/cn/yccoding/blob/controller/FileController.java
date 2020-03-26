@@ -33,4 +33,13 @@ public class FileController {
         List<BlobUpload> blobUploadList = fileService.uploadFile(fileList);
         return R.ok().message("文件上传成功").data("items", blobUploadList);
     }
+
+    @DeleteMapping("/{container-name}/{blob-name}")
+    public R uploadFile(
+            @PathVariable(name = "container-name") String containerName,
+            @PathVariable(name = "blob-name") String blobName
+    ) {
+        fileService.deleteContainer(containerName,blobName);
+        return R.ok().message("文件删除成功");
+    }
 }

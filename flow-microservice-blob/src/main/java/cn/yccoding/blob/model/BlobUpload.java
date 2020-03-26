@@ -10,9 +10,12 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class BlobUpload {
-    // 文件名
-    private String fileName;
+    // 文件原名称
+    private String fileOriginName;
 
-    // 原文件
+    // 文件上传后名称
+    private String fileBlobName;
+
+    // 文件访问路径
     private String fileUrl;
 }
