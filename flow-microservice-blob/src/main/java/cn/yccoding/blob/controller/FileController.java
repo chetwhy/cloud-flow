@@ -1,5 +1,6 @@
 package cn.yccoding.blob.controller;
 
+import cn.yccoding.blob.form.ReqFileSave;
 import cn.yccoding.blob.model.BlobUpload;
 import cn.yccoding.blob.service.FileService;
 import cn.yccoding.common.vo.R;
@@ -74,16 +75,34 @@ public class FileController {
     }
 
     /**
-     * 下载文件
-     * @param containerName
-     * @param blobName
+     * 下载blob文件到本地
      * @return
      */
-    public R downloadFile(
-             String containerName,
-             String blobName
-    ) {
-        fileService.downloadFile(containerName,blobName);
-        return R.ok().message("文件下载成功");
+    @PostMapping("/download")
+    public R downloadFile(@RequestBody ReqFileSave reqFileSave) {
+        String filePath = fileService.downloadFile(reqFileSave.getContainerName(), reqFileSave.getBlobName());
+        return R.ok().message("文件下载成功").data("path",filePath);
+    }
+
+    /**
+     * 数据库存储
+     * @return
+     */
+    @PostMapping("/sql-server/save")
+    public R saveFileToSqlServer(@RequestBody ReqFileSave reqFileSave) {
+        String name = fileService.saveFile(reqFileSave.getContainerName(), reqFileSave.getBlobName());
+        return R.ok().message("文件上传到sql server成功").data("file",name);
+    }
+
+    /**
+     * 从sql server数据下载文件
+     * 测试使用
+     * @param reqFileSave
+     * @return
+     */
+    @PostMapping("/sql-server/download")
+    public R downloadSqlServerFile(@RequestBody ReqFileSave reqFileSave) {
+        String name = fileService.downloadSqlServerFile(reqFileSave.getContainerName(), reqFileSave.getBlobName());
+        return R.ok().message("文件从sql server下载成功").data("file",name);
     }
 }

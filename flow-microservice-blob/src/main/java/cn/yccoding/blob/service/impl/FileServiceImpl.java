@@ -1,6 +1,8 @@
 package cn.yccoding.blob.service.impl;
 
+import cn.yccoding.blob.domain.BlobFile;
 import cn.yccoding.blob.model.BlobUpload;
+import cn.yccoding.blob.repository.BlobFileRepository;
 import cn.yccoding.blob.service.FileService;
 import cn.yccoding.blob.util.BlobUtil;
 import cn.yccoding.common.contants.ResultCodeEnum;
@@ -10,10 +12,14 @@ import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.CloudBlockBlob;
 import com.microsoft.azure.storage.blob.ListBlobItem;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -30,6 +36,9 @@ import static cn.yccoding.blob.config.ConstantPropertiesUtil.*;
 public class FileServiceImpl implements FileService {
 
     private static final String DEFAULT_CONTAINER_REFERENCE = "default";
+
+    @Autowired
+    private BlobFileRepository blobFileRepository;
 
     @Override
     public List<BlobUpload> uploadFile(List<MultipartFile> fileList) {
@@ -127,18 +136,70 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void downloadFile(String containerName, String blobName) {
+    public String downloadFile(String containerName, String blobName) {
+        log.info("开始文件下载...");
         CloudBlobContainer container = getCloudBlobContainer(containerName);
-
+        String filePath = containerName + "/" + blobName;
         try {
             CloudBlob blob = container.getBlobReferenceFromServer(blobName);
-            int bytes = blob.getStreamWriteSizeInBytes();
 
-            // 创建输出流
-            ByteArrayOutputStream out = new ByteArrayOutputStream(bytes);
-            blob.download(out);
+            File tempDir = new File(containerName);
+            if (!tempDir.exists()) {
+                log.info("创建临时目录:[{}]",containerName);
+                tempDir.mkdirs();
+            }else {
+                String[] list = tempDir.list();
+                boolean sameMatch = Arrays.asList(list).stream().anyMatch(i -> blobName.equals(i.toString()));
+                if (sameMatch) {
+                    log.info("已有相同文件，跳过下载..");
+                    return filePath;
+                }
+            }
+            File downloadFile = new File(containerName+"/"+blobName);
+
+            System.out.println(downloadFile.getPath());
+            blob.downloadToFile(downloadFile.getPath());
+            log.info("文件下载本地完成...");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("下载文件出现异常:[{}]", e.getMessage());
+            throw new CustomException(ResultCodeEnum.DOWNLOAD_BLOB_FAILED);
+        }
+        return filePath;
+    }
+
+    @Override
+    public String saveFile(String containerName, String blobName) {
+        String path = containerName + "/" + blobName;
+        try {
+            FileInputStream fis = new FileInputStream(path);
+            byte[] bytes = new byte[fis.available()];
+            fis.read(bytes);
+            fis.close();
+            BlobFile blobFile = new BlobFile();
+            blobFile.setFileName(path);
+            blobFile.setContent(bytes);
+            BlobFile save = blobFileRepository.save(blobFile);
+            return path;
+        } catch (IOException e) {
+            log.info("保存文件到数据库异常:[{}]",e.getMessage());
+            throw new CustomException(ResultCodeEnum.SAVE_SQLSERVER_FAILED);
+        }
+    }
+
+    @Override
+    public String downloadSqlServerFile(String containerName, String blobName) {
+        String fileName = containerName + "/" + blobName;
+        String outPath = "down_" + blobName;
+        BlobFile file = blobFileRepository.findByFileName(fileName);
+        byte[] bytes = file.getContent();
+        try {
+            FileOutputStream fos = new FileOutputStream(new File(outPath));
+            fos.write(bytes);
+            fos.close();
+            return outPath;
+        } catch (IOException e) {
+            log.info("从sql server数据库下载异常:[{}]",e.getMessage());
+            throw new CustomException(ResultCodeEnum.DOWNLOAD_SQLSERVER_FAILED);
         }
     }
 
@@ -152,5 +213,13 @@ public class FileServiceImpl implements FileService {
             throw new CustomException(ResultCodeEnum.GET_BLOB_CONTAINER_ERROR);
         }
         return container;
+    }
+
+    public static void main(String[] args) {
+        File file = new File("aaa/bbb.txt");
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        System.out.println(".....");
     }
 }

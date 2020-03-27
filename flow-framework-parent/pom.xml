@@ -32,6 +32,7 @@
         <common.version>1.0-SNAPSHOT</common.version>
         <javax.version>2.3.1</javax.version>
         <azure-storage.version>0.2.0</azure-storage.version>
+        <sqlserver.version>6.4.0.jre8</sqlserver.version>
     </properties>
 
     <dependencyManagement>
@@ -71,6 +72,12 @@
                 <groupId>com.microsoft.azure</groupId>
                 <artifactId>azure-storage-spring-boot-starter</artifactId>
                 <version>${azure-storage.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+            <dependency>
+                <groupId>com.microsoft.sqlserver</groupId>
+                <artifactId>mssql-jdbc</artifactId>
+                <version>${sqlserver.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

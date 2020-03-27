@@ -38,5 +38,9 @@ public interface FileService {
      */
     void deleteContainer(String containerName);
 
-    void downloadFile(String containerName, String blobName);
+    String downloadFile(String containerName, String blobName);
+
+    String saveFile(String containerName, String blobName);
+
+    String downloadSqlServerFile(String containerName, String blobName);
 }

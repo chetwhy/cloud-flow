@@ -3,6 +3,27 @@ spring:
     multipart:    # spring mvc文件上传
       max-request-size: 10MB
       max-file-size: 1MB
+  datasource:
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://39.104.119.48:1433;DatabaseName=UPS-Single-Window
+    username: sa
+    password: Root1234
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: GuliHikariPool
+      maximum-pool-size: 12
+      connection-timeout: 60000
+      minimum-idle: 10
+      idle-timeout: 500000
+      connection-test-query: SELECT 1
+  # jpa配置
+  jpa:
+    show-sql: true
+    database: sql_server
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
 azure:
   storage:
