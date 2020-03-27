@@ -20,9 +20,23 @@ public interface FileService {
     List<BlobUpload> uploadFile(List<MultipartFile> fileList);
 
     /**
+     * 查询指定容器的文件列表
+     * @param containerName
+     * @return
+     */
+    List<BlobUpload> listContainerFile(String containerName);
+
+    /**
      * 按containerReference删除
      * @param containerName
      * @param blobName
      */
-    void deleteContainer(String containerName,String blobName);
+    void deleteFile(String containerName, String blobName);
+    /**
+     * 删除指定容器
+     * @param containerName
+     */
+    void deleteContainer(String containerName);
+
+    void downloadFile(String containerName, String blobName);
 }

@@ -7,10 +7,13 @@ import cn.yccoding.common.contants.ResultCodeEnum;
 import cn.yccoding.common.exception.CustomException;
 import com.microsoft.azure.storage.blob.CloudBlob;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
+import com.microsoft.azure.storage.blob.CloudBlockBlob;
+import com.microsoft.azure.storage.blob.ListBlobItem;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -37,11 +40,7 @@ public class FileServiceImpl implements FileService {
 
         // 获取blob容器
         String containerReference = DEFAULT_CONTAINER_REFERENCE; // TODO 可该根据业务需要修改，如id, type等
-        CloudBlobContainer container = BlobUtil.getAzureContainer(getStorageConnectionString(), containerReference);
-        if (container == null) {
-            log.error("获取blob container异常");
-            throw new CustomException(ResultCodeEnum.GET_BLOB_CONTAINER_ERROR);
-        }
+        CloudBlobContainer container = getCloudBlobContainer(containerReference);
 
         // 区分文件类型, 如image/jpg
         Map<String, List<MultipartFile>> classFiles =
@@ -68,9 +67,8 @@ public class FileServiceImpl implements FileService {
                     blob.upload(file.getInputStream(), file.getSize());
 
                     // 返回图片URL
-                    BlobUpload uploadResp = new BlobUpload();
-                    uploadResp.setFileOriginName(file.getOriginalFilename()).setFileBlobName(blob.getName())
-                        .setFileUrl(blob.getUri().toString());
+                    BlobUpload uploadResp = new BlobUpload().setFileOriginName(file.getOriginalFilename()).setFileBlobName(blob.getName())
+                            .setFileUrl(blob.getUri().toString());
 
                     // TODO 如果是图片生成缩略图
 
@@ -87,25 +85,72 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void deleteContainer(String containerName, String blobName) {
-        CloudBlobContainer container = BlobUtil.getAzureContainer(getStorageConnectionString(), containerName);
-        if (container == null) {
-            log.error("获取blob container异常");
-            throw new CustomException(ResultCodeEnum.GET_BLOB_CONTAINER_ERROR);
+    public List<BlobUpload> listContainerFile(String containerName) {
+        CloudBlobContainer container = getCloudBlobContainer(containerName);
+        List<BlobUpload> result = new ArrayList<>();
+        try {
+            Iterable<ListBlobItem> items = container.listBlobs();
+            for (ListBlobItem item : items) {
+                if (item instanceof CloudBlockBlob) {
+                    CloudBlockBlob blob = (CloudBlockBlob) item;
+                    result.add(new BlobUpload().setFileBlobName(blob.getName()).setFileUrl(blob.getUri().toString()));
+                }
+            }
+        } catch (Exception e) {
+            log.error("查询文件出现异常:[{}]", e.getMessage());
+            throw new CustomException(ResultCodeEnum.QUERY_BLOB_FAILED);
         }
+        return result;
+    }
+
+    @Override
+    public void deleteFile(String containerName, String blobName) {
+        CloudBlobContainer container = getCloudBlobContainer(containerName);
         try {
             CloudBlob blob = container.getBlobReferenceFromServer(blobName);
             blob.deleteIfExists();
         } catch (Exception e) {
-            log.error("上传删除出现异常:[{}]", e.getMessage());
+            log.error("删除文件出现异常:[{}]", e.getMessage());
             throw new CustomException(ResultCodeEnum.DELETE_BLOB_FAILED);
         }
     }
 
-    private String getStorageConnectionString() {
+    @Override
+    public void deleteContainer(String containerName) {
+        CloudBlobContainer container = getCloudBlobContainer(containerName);
+        try {
+            container.deleteIfExists();
+        } catch (Exception e) {
+            log.error("删除容器出现异常:[{}]", e.getMessage());
+            throw new CustomException(ResultCodeEnum.DELETE_BLOB_FAILED);
+        }
+    }
+
+    @Override
+    public void downloadFile(String containerName, String blobName) {
+        CloudBlobContainer container = getCloudBlobContainer(containerName);
+
+        try {
+            CloudBlob blob = container.getBlobReferenceFromServer(blobName);
+            int bytes = blob.getStreamWriteSizeInBytes();
+
+            // 创建输出流
+            ByteArrayOutputStream out = new ByteArrayOutputStream(bytes);
+            blob.download(out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private CloudBlobContainer getCloudBlobContainer(String containerName) {
         String storageConnectionString =
             String.format("DefaultEndpointsProtocol=%s;AccountName=%s;AccountKey=%s;EndpointSuffix=%s",
                 DEFAULT_ENDPOINTS_PROTOCOL, ACCOUNT_NAME, ACCOUNT_KEY, ENDPOINT_SUFFIX);
-        return storageConnectionString;
+        CloudBlobContainer container = BlobUtil.getAzureContainer(storageConnectionString, containerName);
+        if (container == null) {
+            log.error("获取blob container异常");
+            throw new CustomException(ResultCodeEnum.GET_BLOB_CONTAINER_ERROR);
+        }
+        return container;
     }
 }
