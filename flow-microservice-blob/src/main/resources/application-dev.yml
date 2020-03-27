@@ -7,7 +7,7 @@ spring:
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
     url: jdbc:sqlserver://39.104.119.48:1433;DatabaseName=UPS-Single-Window
     username: sa
-    password: Root1234
+    password: ENC(vo+Ce07+xRPn8ISP85PR/zRpWbP0slFN)
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       pool-name: GuliHikariPool
