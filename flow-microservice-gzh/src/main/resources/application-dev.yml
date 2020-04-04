@@ -18,13 +18,13 @@ spring:
     #redis服务端口，默认6379
     port: 6379
     #redis密码，默认为空
-    password: ENC(saFOB3bDz+pe2xcxGSfc5USnZ+OvQhKY)
+    password: ENC(AqsT7bjJt1D5S8isea7YXw==)
   # mysql数据源配置
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://120.79.27.209:33306/flow_gzh?characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://120.79.27.209:3306/flow_gzh?characterEncoding=utf8&useSSL=false
     username: root
-    password: ENC(xQ/ZcWd0bfj9qaCd6qyNlA==)
+    password: ENC(38E14k3zp+JWAn6T4uGpBA==)
   # jpa配置
   jpa:
     show-sql: true

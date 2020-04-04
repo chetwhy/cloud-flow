@@ -7,9 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="flow-framework-common" />
-        <module name="flow-microservice-blob" />
+        <module name="rabbitmq-demo" />
         <module name="flow-microservice-gzh" />
-        <module name="demo" />
+        <module name="flow-microservice-blob" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -18,6 +18,7 @@
       <module name="flow-framework-parent" target="1.8" />
       <module name="flow-microservice-blob" target="1.8" />
       <module name="flow-microservice-gzh" target="1.8" />
+      <module name="rabbitmq-demo" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -27,6 +28,7 @@
       <module name="flow-framework-parent" options="-parameters" />
       <module name="flow-microservice-blob" options="-parameters" />
       <module name="flow-microservice-gzh" options="-parameters" />
+      <module name="rabbitmq-demo" options="-parameters" />
     </option>
   </component>
 </project>

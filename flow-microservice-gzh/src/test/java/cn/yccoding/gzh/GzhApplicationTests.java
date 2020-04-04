@@ -12,12 +12,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @Author YC
@@ -36,12 +32,7 @@ public class GzhApplicationTests {
     public void create() throws IOException {
         ReplyMessage replyMessage = new ReplyMessage();
         replyMessage.setKeyword("who");
-        FileInputStream fis = new FileInputStream("aaa.txt");
-        byte[] bytes = new byte[fis.available()];
-        fis.read(bytes);
-        fis.close();
-        replyMessage.setFile(bytes);
-        System.out.println(replyMessage);
+        replyMessage.setText("王二狗");
         replyMessageRepository.save(replyMessage);
         assert replyMessage.getId() > 0 : "error";
     }
@@ -52,20 +43,4 @@ public class GzhApplicationTests {
         assert all!=null:"table is null";
         all.forEach(System.out::println);
     }
-
-    @Test
-    public void getDataById() throws IOException {
-        ReplyMessage message = replyMessageRepository.findByKeyword("who2");
-        Optional<ReplyMessage> one = replyMessageRepository.findById(1L);
-        ReplyMessage replyMessage = one.get();
-        if (message == null) {
-            System.out.println("null");
-            return;
-        }
-        byte[] file = message.getFile();
-        FileOutputStream fos = new FileOutputStream(new File("bbb.txt"));
-        fos.write(file);
-        fos.close();
-    }
-
 }

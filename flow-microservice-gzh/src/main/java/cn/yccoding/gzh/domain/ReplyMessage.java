@@ -21,6 +21,4 @@ public class ReplyMessage {
 
     private String text;
 
-    private byte[] file;
-
 }
