@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @EnableRabbit
+//@ComponentScan(basePackages = {"cn.yccoding.common","cn.yccoding.manage"})
 public class ManageApplication {
 
     public static void main(String[] args) {

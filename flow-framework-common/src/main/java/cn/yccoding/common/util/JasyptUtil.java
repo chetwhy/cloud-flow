@@ -45,8 +45,4 @@ public class JasyptUtil {
         config.setStringOutputType("base64");
         return config;
     }
-
-    public static void main(String[] args) {
-        System.out.println(encyptPwd("yuan0420", "kvvbolqucelebfdc"));
-    }
 }

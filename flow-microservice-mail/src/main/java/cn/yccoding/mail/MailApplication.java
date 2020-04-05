@@ -10,7 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @EnableRabbit
-//@ComponentScan(basePackages = {"cn.yccoding.common"})
 public class MailApplication {
 
     public static void main(String[] args) {
