@@ -4,6 +4,8 @@
     <file url="file://$PROJECT_DIR$/flow-framework-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/flow-microservice-blob/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/flow-microservice-gzh/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/flow-microservice-mail/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/flow-microservice-manage/src/main/java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

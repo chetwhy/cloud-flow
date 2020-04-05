@@ -1,0 +1,26 @@
+spring:
+  # rabbitmq
+  rabbitmq:
+    host: 120.79.27.209
+    username: guest
+    password: guest
+    virtual-host: /
+    listener:
+      simple:
+        acknowledge-mode: manual
+  # qq mail
+  mail:
+    host: smtp.qq.com
+    username: 691409320@qq.com
+    password: 
+    default-encoding: utf-8
+    port: 587
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.connectiontimeout: 5000
+      mail.smtp.timeout: 5000
+      mail.smtp.writetimeout: 5000
+      mail.smtp.starttls.enabl: true
+  # thymeleaf
+  thymeleaf:
+    cache: false
