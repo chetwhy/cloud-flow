@@ -7,7 +7,8 @@
         <module>../flow-microservice-gzh</module>
         <module>../flow-framework-common</module>
         <module>../flow-microservice-blob</module>
-        <module>../rabbitmq-demo</module>
+        <module>../flow-microservice-manage</module>
+        <module>../flow-microservice-mail</module>
     </modules>
     <!--模块信息-->
     <groupId>cn.yccoding</groupId>

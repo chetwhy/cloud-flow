@@ -20,7 +20,8 @@ public enum  ResultCodeEnum {
     QUERY_BLOB_FAILED(false, 30005, "查询blob数据库失败"),
     DOWNLOAD_BLOB_FAILED(false, 30006, "下载blob数据库失败"),
     SAVE_SQLSERVER_FAILED(false, 40001, "保存sql server异常"),
-    DOWNLOAD_SQLSERVER_FAILED(false, 40002, "下载sql server数据异常");
+    DOWNLOAD_SQLSERVER_FAILED(false, 40002, "下载sql server数据异常"),
+    MAIL_SEND_FAILED(false, 410001, "邮件发送失败");
 
     // 响应是否成功
     private Boolean success;
