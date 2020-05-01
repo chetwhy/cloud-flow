@@ -2,8 +2,8 @@ spring:
   # rabbitmq
   rabbitmq:
     host: 120.79.27.209
-    username: guest
-    password: guest
+    username:
+    password:
     virtual-host: /
     listener:
       simple:
@@ -13,6 +13,9 @@ spring:
     host: smtp.qq.com
     username: 691409320@qq.com
     password:
+#    host: smtp.sendgrid.net
+#    username: apikey
+#    password: 密钥内容
     default-encoding: utf-8
     port: 587
     properties:
@@ -24,3 +27,18 @@ spring:
   # thymeleaf
   thymeleaf:
     cache: false
+  redis:
+    #redis数据库，默认是0
+    database: 0
+    #redis服务器地址
+    host: 120.79.27.209
+    #redis服务端口，默认6379
+    port: 6379
+    #redis密码，默认为空
+    password:
+# +++++++++++++++++++++++ 配置send grid +++++++++++++++++++++++
+sendgrid:
+  from:
+    name: chet
+    email:
+  api-key:

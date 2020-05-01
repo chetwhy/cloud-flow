@@ -25,7 +25,4 @@ public class HelloController {
         return R.ok().data("k1",token);
     }
 
-    public static void main(String[] args) {
-        System.out.println(JasyptUtil.encyptPwd("yuan0420", "1234"));
-    }
 }
