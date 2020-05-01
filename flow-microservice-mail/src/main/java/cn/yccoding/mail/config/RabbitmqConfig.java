@@ -35,6 +35,23 @@ public class RabbitmqConfig {
             MAIL_REGISTER_ROUTING_KEY, null);
     }
 
+    /** send grid **/
+    @Bean
+    public Queue sendGridQueue() {
+        return new Queue(MAIL_SEND_GRID_QUEUE, true, false, false, null);
+    }
+
+    @Bean
+    public Exchange sendGridExchange() {
+        return new TopicExchange(MAIL_SEND_GRID_EXCHANGE, true, false, null);
+    }
+
+    @Bean
+    public Binding sendGridBinding() {
+        return new Binding(MAIL_SEND_GRID_QUEUE, Binding.DestinationType.QUEUE, MAIL_SEND_GRID_EXCHANGE,
+                MAIL_SEND_GRID_ROUTING_KEY, null);
+    }
+
     /** json输出 **/
     @Bean
     public MessageConverter messageConverter() {

@@ -11,6 +11,8 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/flow-framework-parent/flow-microservice-sendgrid/pom.xml" />
+        <option value="$PROJECT_DIR$/flow-microservice-sendgrid/pom.xml" />
         <option value="$PROJECT_DIR$/rabbitmq-demo/pom.xml" />
       </set>
     </option>

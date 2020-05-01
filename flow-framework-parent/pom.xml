@@ -35,6 +35,7 @@
         <javax.version>2.3.1</javax.version>
         <azure-storage.version>0.2.0</azure-storage.version>
         <sqlserver.version>6.4.0.jre8</sqlserver.version>
+        <sendgrid.version>4.2.1</sendgrid.version>
     </properties>
 
     <dependencyManagement>
@@ -80,6 +81,12 @@
                 <groupId>com.microsoft.sqlserver</groupId>
                 <artifactId>mssql-jdbc</artifactId>
                 <version>${sqlserver.version}</version>
+            </dependency>
+            <!--sendgrid -->
+            <dependency>
+                <groupId>com.sendgrid</groupId>
+                <artifactId>sendgrid-java</artifactId>
+                <version>${sendgrid.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
