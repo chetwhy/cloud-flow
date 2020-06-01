@@ -9,8 +9,10 @@
         <module name="flow-microservice-manage" />
         <module name="flow-microservice-mail" />
         <module name="flow-framework-common" />
+        <module name="flow-microservice-ucenter" />
         <module name="flow-microservice-blob" />
         <module name="flow-microservice-gzh" />
+        <module name="flow-microservice-sysuser" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -22,6 +24,8 @@
       <module name="flow-microservice-mail" target="1.8" />
       <module name="flow-microservice-manage" target="1.8" />
       <module name="flow-microservice-sendgrid" target="1.8" />
+      <module name="flow-microservice-sysuser" target="1.8" />
+      <module name="flow-microservice-ucenter" target="1.8" />
       <module name="rabbitmq-demo" target="1.8" />
     </bytecodeTargetLevel>
   </component>
@@ -35,6 +39,8 @@
       <module name="flow-microservice-mail" options="-parameters" />
       <module name="flow-microservice-manage" options="-parameters" />
       <module name="flow-microservice-sendgrid" options="-parameters" />
+      <module name="flow-microservice-sysuser" options="-parameters" />
+      <module name="flow-microservice-ucenter" options="-parameters" />
       <module name="rabbitmq-demo" options="-parameters" />
     </option>
   </component>

@@ -1,0 +1,25 @@
+spring:
+  redis:
+    #redis数据库，默认是0
+    database: 0
+    #redis服务器地址
+    host: 120.79.27.209
+    #redis服务端口，默认6379
+    port: 6379
+    #redis密码，默认为空
+    password: ENC(AqsT7bjJt1D5S8isea7YXw==)
+  # mysql数据源配置
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://120.79.27.209:3306/flow_ucenter?characterEncoding=utf8&useSSL=false
+    username: root
+    password:
+  # jpa配置
+  jpa:
+    show-sql: true
+    database: mysql
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect

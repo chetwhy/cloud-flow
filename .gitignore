@@ -65,3 +65,7 @@ Thumbs.db
 Servers
 .metadata
 *.class
+.idea/compiler.xml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/modules.xml
