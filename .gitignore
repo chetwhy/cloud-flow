@@ -54,6 +54,5 @@ target/
 Thumbs.db
 Servers
 .metadata
-upload
-gen_code
-.idea/libraries/
+*.class
+.idea/
