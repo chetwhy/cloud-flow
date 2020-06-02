@@ -57,3 +57,6 @@ Servers
 upload
 gen_code
 .idea/libraries/
+.idea/libraries/Maven__org_apache_logging_log4j_log4j_api_2_10_0.xml
+.idea/libraries/Maven__ch_qos_logback_logback_classic_1_2_3.xml
+.idea/libraries/Maven__ch_qos_logback_logback_core_1_2_3.xml
