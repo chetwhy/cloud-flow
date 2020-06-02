@@ -1,9 +1,13 @@
 package cn.yccoding.blob.service;
 
-import cn.yccoding.blob.model.BlobUpload;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import cn.yccoding.blob.model.BlobUpload;
 
 /**
  * @Author YC
@@ -38,9 +42,12 @@ public interface FileService {
      */
     void deleteContainer(String containerName);
 
-    String downloadFile(String containerName, String blobName);
-
-    String saveFile(String containerName, String blobName);
-
-    String downloadSqlServerFile(String containerName, String blobName);
+    /**
+     * 下载指定blob文件
+     * @param containerName
+     * @param blobName
+     * @param request
+     * @param response
+     */
+    void downloadFile(String containerName, String blobName, HttpServletRequest request, HttpServletResponse response);
 }
