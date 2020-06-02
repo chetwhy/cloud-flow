@@ -4,18 +4,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <modules>
-        <module>../flow-microservice-gzh</module>
-        <module>../flow-framework-common</module>
-        <module>../flow-microservice-blob</module>
-        <module>../flow-microservice-manage</module>
-        <module>../flow-microservice-mail</module>
-        <module>../flow-microservice-ucenter</module>
+        <module>flow-microservice-gzh</module>
+        <module>flow-framework-common</module>
+        <module>flow-microservice-blob</module>
+        <module>flow-microservice-manage</module>
+        <module>flow-microservice-mail</module>
+        <module>flow-microservice-ucenter</module>
     </modules>
     <!--模块信息-->
     <groupId>cn.yccoding</groupId>
-    <artifactId>flow-framework-parent</artifactId>
+    <artifactId>cloud-flow</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>flow-framework-parent</name>
+    <name>cloud-flow</name>
     <description>云流平台maven父工程</description>
     <packaging>pom</packaging>
 
@@ -23,7 +23,6 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.0.7.RELEASE</version>
-        <relativePath/>
     </parent>
 
     <!--版本信息-->
@@ -97,6 +96,27 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                    <!-- 过期的方法的警告
+                      <compilerArgs>
+                          <arg>-Xlint:deprecation</arg>
+                      </compilerArgs> -->
+                    <compilerArguments>
+                        <!-- 是否输出所有的编译信息（包括类的加载等）-->
+                        <!--<verbose />-->
+                        <!-- 解决maven命令编译报错，因为rt.jar 和jce.jar在jre的lib下面，不在jdk的lib下面，
+                        导致maven找不到（java7以后会出现这个问题），将这2个jar包拷贝到jdk的lib下面估计也好使-->
+                        <bootclasspath>${java.home}\lib\rt.jar;${java.home}\lib\jce.jar</bootclasspath>
+                    </compilerArguments>
+                </configuration>
             </plugin>
         </plugins>
     </build>
