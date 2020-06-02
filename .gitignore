@@ -1,46 +1,52 @@
-### gradle ###
-.gradle
-/build/
-!gradle/wrapper/gradle-wrapper.jar
+# Compiled class file
+*.class
 
-### STS ###
-.settings/
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-bin/
+# Log file
+*.log
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-rebel.xml
+# BlueJ files
+*.ctxt
 
-### NetBeans ###
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
 
-### maven ###
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+
+# maven ignore
 target/
+*.jar
 *.war
 *.ear
 *.zip
 *.tar
 *.tar.gz
 
-### logs ####
-/logs/
-*.log
+# eclipse ignore
+.settings/
+.project
+.classpath
 
-### temp ignore ###
+# idea ignore
+.idea/
+*.ipr
+*.iml
+*.iws
+
+# logs #
+logs
+
+# temp ignore
+*.log
 *.cache
 *.diff
 *.patch
@@ -49,10 +55,8 @@ target/
 *.properties~
 *.xml~
 
-### system ignore ###
+# system ignore
 .DS_Store
 Thumbs.db
 Servers
 .metadata
-*.class
-.idea/
