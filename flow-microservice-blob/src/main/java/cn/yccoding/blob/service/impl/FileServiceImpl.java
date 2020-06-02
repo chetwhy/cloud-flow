@@ -1,31 +1,38 @@
 package cn.yccoding.blob.service.impl;
 
-import cn.yccoding.blob.domain.BlobFile;
-import cn.yccoding.blob.model.BlobUpload;
-import cn.yccoding.blob.repository.BlobFileRepository;
-import cn.yccoding.blob.service.FileService;
-import cn.yccoding.blob.util.BlobUtil;
-import cn.yccoding.common.contants.ResultCodeEnum;
-import cn.yccoding.common.exception.CustomException;
-import com.microsoft.azure.storage.blob.CloudBlob;
-import com.microsoft.azure.storage.blob.CloudBlobContainer;
-import com.microsoft.azure.storage.blob.CloudBlockBlob;
-import com.microsoft.azure.storage.blob.ListBlobItem;
-import lombok.extern.slf4j.Slf4j;
+import static cn.yccoding.blob.config.ConstantPropertiesUtil.*;
+
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.microsoft.azure.storage.blob.CloudBlob;
+import com.microsoft.azure.storage.blob.CloudBlobContainer;
+import com.microsoft.azure.storage.blob.CloudBlockBlob;
+import com.microsoft.azure.storage.blob.ListBlobItem;
 
-import static cn.yccoding.blob.config.ConstantPropertiesUtil.*;
+import cn.yccoding.blob.asynctask.BlobTask;
+import cn.yccoding.blob.model.BlobUpload;
+import cn.yccoding.blob.service.FileService;
+import cn.yccoding.blob.util.BlobUtil;
+import cn.yccoding.common.contants.ResultCodeEnum;
+import cn.yccoding.common.exception.CustomException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Author YC
@@ -37,8 +44,10 @@ public class FileServiceImpl implements FileService {
 
     private static final String DEFAULT_CONTAINER_REFERENCE = "default";
 
+    private static final long TASK_TIME_OUT = 30000;
+
     @Autowired
-    private BlobFileRepository blobFileRepository;
+    private BlobTask blobTask;
 
     @Override
     public List<BlobUpload> uploadFile(List<MultipartFile> fileList) {
@@ -55,35 +64,16 @@ public class FileServiceImpl implements FileService {
         Map<String, List<MultipartFile>> classFiles =
             fileList.stream().collect(Collectors.groupingBy(MultipartFile::getContentType));
 
-        // 分类上传
         List<BlobUpload> blobUploadRespList = new ArrayList<>();
-        Set<String> fileTypes = classFiles.keySet();
+        // TODO 建议用数据库关联原文件信息，或者封装future的bean时携带信息
+        // 多线程上传文件到blob
+        List<CloudBlockBlob> blobUploadedList = uploadBlobAsync(container, fileList);
         try {
-            for (String type : fileTypes) {
-                List<MultipartFile> files = classFiles.get(type);
-
-                for (MultipartFile file : files) {
-                    // 组装文件上传名称
-                    String oriFile = file.getOriginalFilename();
-                    String fileDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-                    String fileNonStr = UUID.randomUUID().toString();
-                    String fileType = oriFile.substring(oriFile.lastIndexOf("."));
-                    String newFileName = fileDate + "-" + fileNonStr + fileType;
-
-                    // 上传
-                    CloudBlob blob = container.getBlockBlobReference(newFileName);
-                    blob.getProperties().setContentType(file.getContentType());
-                    blob.upload(file.getInputStream(), file.getSize());
-
-                    // 返回图片URL
-                    BlobUpload uploadResp = new BlobUpload().setFileOriginName(file.getOriginalFilename()).setFileBlobName(blob.getName())
-                            .setFileUrl(blob.getUri().toString());
-
-                    // TODO 如果是图片生成缩略图
-
-                    // 添加到结果集合
-                    blobUploadRespList.add(uploadResp);
-                }
+            for (CloudBlockBlob blob : blobUploadedList) {
+                // 封装前端返回
+                BlobUpload uploadResp =
+                    new BlobUpload().setFileBlobName(blob.getName()).setFileUrl(blob.getUri().toString());
+                blobUploadRespList.add(uploadResp);
             }
         } catch (Exception e) {
             log.error("上传文件出现异常:[{}]", e.getMessage());
@@ -101,7 +91,7 @@ public class FileServiceImpl implements FileService {
             Iterable<ListBlobItem> items = container.listBlobs();
             for (ListBlobItem item : items) {
                 if (item instanceof CloudBlockBlob) {
-                    CloudBlockBlob blob = (CloudBlockBlob) item;
+                    CloudBlockBlob blob = (CloudBlockBlob)item;
                     result.add(new BlobUpload().setFileBlobName(blob.getName()).setFileUrl(blob.getUri().toString()));
                 }
             }
@@ -136,70 +126,25 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public String downloadFile(String containerName, String blobName) {
+    public void downloadFile(String containerName, String blobName, HttpServletRequest request,
+        HttpServletResponse response) {
         log.info("开始文件下载...");
         CloudBlobContainer container = getCloudBlobContainer(containerName);
-        String filePath = containerName + "/" + blobName;
         try {
             CloudBlob blob = container.getBlobReferenceFromServer(blobName);
 
-            File tempDir = new File(containerName);
-            if (!tempDir.exists()) {
-                log.info("创建临时目录:[{}]",containerName);
-                tempDir.mkdirs();
-            }else {
-                String[] list = tempDir.list();
-                boolean sameMatch = Arrays.asList(list).stream().anyMatch(i -> blobName.equals(i.toString()));
-                if (sameMatch) {
-                    log.info("已有相同文件，跳过下载..");
-                    return filePath;
-                }
-            }
-            File downloadFile = new File(containerName+"/"+blobName);
-
-            System.out.println(downloadFile.getPath());
-            blob.downloadToFile(downloadFile.getPath());
+            // 下载的文件使用原名称
+            OutputStream out = response.getOutputStream();
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("multipart/form-data");
+            response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(blobName, "utf-8"));
+            blob.download(out);
+            out.flush();
+            out.close();
             log.info("文件下载本地完成...");
         } catch (Exception e) {
             log.error("下载文件出现异常:[{}]", e.getMessage());
             throw new CustomException(ResultCodeEnum.DOWNLOAD_BLOB_FAILED);
-        }
-        return filePath;
-    }
-
-    @Override
-    public String saveFile(String containerName, String blobName) {
-        String path = containerName + "/" + blobName;
-        try {
-            FileInputStream fis = new FileInputStream(path);
-            byte[] bytes = new byte[fis.available()];
-            fis.read(bytes);
-            fis.close();
-            BlobFile blobFile = new BlobFile();
-            blobFile.setFileName(path);
-            blobFile.setContent(bytes);
-            BlobFile save = blobFileRepository.save(blobFile);
-            return path;
-        } catch (IOException e) {
-            log.info("保存文件到数据库异常:[{}]",e.getMessage());
-            throw new CustomException(ResultCodeEnum.SAVE_SQLSERVER_FAILED);
-        }
-    }
-
-    @Override
-    public String downloadSqlServerFile(String containerName, String blobName) {
-        String fileName = containerName + "/" + blobName;
-        String outPath = "down_" + blobName;
-        BlobFile file = blobFileRepository.findByFileName(fileName);
-        byte[] bytes = file.getContent();
-        try {
-            FileOutputStream fos = new FileOutputStream(new File(outPath));
-            fos.write(bytes);
-            fos.close();
-            return outPath;
-        } catch (IOException e) {
-            log.info("从sql server数据库下载异常:[{}]",e.getMessage());
-            throw new CustomException(ResultCodeEnum.DOWNLOAD_SQLSERVER_FAILED);
         }
     }
 
@@ -215,11 +160,48 @@ public class FileServiceImpl implements FileService {
         return container;
     }
 
-    public static void main(String[] args) {
-        File file = new File("aaa/bbb.txt");
-        if (!file.exists()) {
-            file.mkdirs();
+    // 多线程上传文件到blob
+    private List<CloudBlockBlob> uploadBlobAsync(CloudBlobContainer container, List<MultipartFile> fileList) {
+        // 多线程开始执行
+        Long threadStart = System.currentTimeMillis();
+        List<Future<CloudBlockBlob>> blobFutureList = new ArrayList<>();
+        try {
+            for (MultipartFile file : fileList) {
+                // 组装文件上传名称
+                String oriFile = file.getOriginalFilename();
+                String newFileName = generateFileName(oriFile);
+
+                blobFutureList.add(blobTask.uploadSingleFile(container, file, newFileName));
+            }
+        } catch (Exception e) {
+            log.warn("线程池队列已满，放弃剩余任务:{}", e.getMessage());
         }
-        System.out.println(".....");
+
+        List<CloudBlockBlob> blobResultList = new ArrayList<>();
+        for (Future<CloudBlockBlob> future : blobFutureList) {
+            try {
+                CloudBlockBlob blob = future.get(TASK_TIME_OUT, TimeUnit.MILLISECONDS);
+                blobResultList.add(blob);
+            } catch (Exception e) {
+                log.error("blob线程运行异常，放弃执行：[{}]", e.getMessage());
+            } finally {
+                future.cancel(true);
+            }
+        }
+
+        log.info("blob上传的多线程执行结束，耗时：[{}]ms", System.currentTimeMillis() - threadStart);
+        blobResultList = blobResultList.stream().filter(i -> i != null && i.getUri() != null && i.getName() != null)
+                .collect(Collectors.toList());
+        return blobResultList;
+    }
+
+    /**
+     * 随机文件名
+     */
+    private String generateFileName(String oriFile) {
+        String fileDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        String fileNonStr = UUID.randomUUID().toString();
+        String fileType = oriFile.substring(oriFile.lastIndexOf("."));
+        return fileDate + "-" + fileNonStr + fileType;
     }
 }

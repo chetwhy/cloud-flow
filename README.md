@@ -31,3 +31,6 @@ cloud-flow
 
 4. **MailApplication**
 - 需配置邮箱服务和授权码
+
+## 代码格式化说明
+本项目代码使用了阿里巴巴的代码规范，Eeclipse/Idea代码格式化设置可参考链接: [java代码格式化模板（阿里代码规范）](http://ddrv.cn/a/235259)

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -71,7 +73,7 @@ public class FileController {
             @PathVariable(name = "container-name") String containerName
     ) {
         fileService.deleteContainer(containerName);
-        return R.ok().message("文件删除成功");
+        return R.ok().message("容器删除成功");
     }
 
     /**
@@ -79,30 +81,9 @@ public class FileController {
      * @return
      */
     @PostMapping("/download")
-    public R downloadFile(@RequestBody ReqFileSave reqFileSave) {
-        String filePath = fileService.downloadFile(reqFileSave.getContainerName(), reqFileSave.getBlobName());
-        return R.ok().message("文件下载成功").data("path",filePath);
+    public R downloadFile(@RequestBody ReqFileSave reqFileSave, HttpServletRequest request, HttpServletResponse response) {
+        fileService.downloadFile(reqFileSave.getContainerName(), reqFileSave.getBlobName(),request, response);
+        return R.ok().message("文件下载成功");
     }
 
-    /**
-     * 数据库存储
-     * @return
-     */
-    @PostMapping("/sql-server/save")
-    public R saveFileToSqlServer(@RequestBody ReqFileSave reqFileSave) {
-        String name = fileService.saveFile(reqFileSave.getContainerName(), reqFileSave.getBlobName());
-        return R.ok().message("文件上传到sql server成功").data("file",name);
-    }
-
-    /**
-     * 从sql server数据下载文件
-     * 测试使用
-     * @param reqFileSave
-     * @return
-     */
-    @PostMapping("/sql-server/download")
-    public R downloadSqlServerFile(@RequestBody ReqFileSave reqFileSave) {
-        String name = fileService.downloadSqlServerFile(reqFileSave.getContainerName(), reqFileSave.getBlobName());
-        return R.ok().message("文件从sql server下载成功").data("file",name);
-    }
 }

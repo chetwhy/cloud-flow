@@ -26,12 +26,7 @@ hs_err_pid*
 
 # maven ignore
 target/
-*.jar
-*.war
-*.ear
-*.zip
 *.tar
-*.tar.gz
 
 # eclipse ignore
 .settings/
@@ -50,7 +45,6 @@ target/
 logs
 
 # temp ignore
-*.log
 *.cache
 *.diff
 *.patch
@@ -64,5 +58,4 @@ logs
 Thumbs.db
 Servers
 .metadata
-*.class
 *.xml
