@@ -3,7 +3,7 @@ package cn.yccoding.mail.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.yccoding.common.util.CommonUtil;
+import cn.yccoding.common.util.CommonUtils;
 import cn.yccoding.mail.form.sendgrid.ContentForm;
 import cn.yccoding.mail.form.sendgrid.MailInfoForm;
 import cn.yccoding.mail.form.sendgrid.MailRequestForm;
@@ -44,7 +44,7 @@ public class CaptchaService {
         String key = "Captcha_" + toUserForm.getName();
         String captcha = redisService.get(key);
         if (captcha == null) {
-            captcha = CommonUtil.randomAlphaNumeric(SEED);
+            captcha = CommonUtils.randomAlphaNumeric(SEED);
             // 验证码有效时间1min
             redisService.set(key, captcha, EXPIRED_TIME);
         }

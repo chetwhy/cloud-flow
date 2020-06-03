@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.yccoding.common.contants.ResultCodeEnum;
 import cn.yccoding.common.exception.CustomException;
-import cn.yccoding.common.util.ExceptionUtil;
+import cn.yccoding.common.util.ExceptionUtils;
 import cn.yccoding.common.vo.R;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public R error(Exception e) {
         //e.printStackTrace();
-        log.error(ExceptionUtil.getMessage(e));
+        log.error(ExceptionUtils.getMessage(e));
         return R.error();
     }
 
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NullPointerException.class)
     @ResponseBody
     public R error(NullPointerException e) {
-        log.error(ExceptionUtil.getMessage(e));
+        log.error(ExceptionUtils.getMessage(e));
         return R.setResult(ResultCodeEnum.NULL_POINTER);
     }
 
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CustomException.class)
     @ResponseBody
     public R error(CustomException e) {
-        log.error(ExceptionUtil.getMessage(e));
+        log.error(ExceptionUtils.getMessage(e));
         return R.error().message(e.getMessage()).code(e.getCode());
     }
 

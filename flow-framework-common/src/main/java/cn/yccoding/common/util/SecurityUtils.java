@@ -7,7 +7,7 @@ import java.security.MessageDigest;
  * @description : 安全，如签名类方法
  * @date : 2019/11/5
  */
-public class SecurityUtil {
+public class SecurityUtils {
     private static final char[] HEX_DIGITS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 
     public static String encode(String algorithm, String str) {
@@ -37,10 +37,10 @@ public class SecurityUtil {
 
 
     public static String MD5(String content){
-        return SecurityUtil.encode("MD5", content);
+        return SecurityUtils.encode("MD5", content);
     }
 
     public static String SHA1(String content){
-        return SecurityUtil.encode("SHA1", content);
+        return SecurityUtils.encode("SHA1", content);
     }
 }

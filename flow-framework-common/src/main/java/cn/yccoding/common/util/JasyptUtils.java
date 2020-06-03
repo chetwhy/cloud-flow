@@ -3,7 +3,7 @@ package cn.yccoding.common.util;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 
-public class JasyptUtil {
+public class JasyptUtils {
     /**
      * Jasypt生成加密结果
      *

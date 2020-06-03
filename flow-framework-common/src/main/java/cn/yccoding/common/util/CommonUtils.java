@@ -4,7 +4,7 @@ package cn.yccoding.common.util;
  * @Author YC
  * @create 2020/5/1
  */
-public class CommonUtil {
+public class CommonUtils {
 
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 

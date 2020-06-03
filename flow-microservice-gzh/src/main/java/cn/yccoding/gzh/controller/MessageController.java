@@ -1,6 +1,6 @@
 package cn.yccoding.gzh.controller;
 
-import cn.yccoding.common.util.XmlConvertUtil;
+import cn.yccoding.common.util.XmlConvertUtils;
 import cn.yccoding.gzh.model.RcvCommonMsg;
 import cn.yccoding.gzh.service.MessageService;
 import cn.yccoding.gzh.util.OfficialAccountUtil;
@@ -46,7 +46,7 @@ public class MessageController {
     public String handleMessage(@RequestBody RcvCommonMsg rcvCommonMsg) throws JAXBException {
         String replyMsg = messageService.handleMessage(rcvCommonMsg);
         // TODO 暂不支持直接bean注解输出
-        String rcvMsg = XmlConvertUtil.beanToXml(rcvCommonMsg, RcvCommonMsg.class);
+        String rcvMsg = XmlConvertUtils.beanToXml(rcvCommonMsg, RcvCommonMsg.class);
         log.info("公众号接收消息:[{}}, 回复消息:[{}]",rcvMsg,replyMsg);
         return replyMsg;
     }

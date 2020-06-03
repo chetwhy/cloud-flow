@@ -13,7 +13,7 @@ import java.io.StringWriter;
  * @Author YC
  * @create 2020/2/3 xml工具类
  */
-public class XmlConvertUtil {
+public class XmlConvertUtils {
 
     /**
      * transfer xml to bean

@@ -8,7 +8,7 @@ import java.time.ZoneOffset;
  * @create 2020/3/6
  * 日期时间工具类
  */
-public class DateTimeUtil {
+public class DateTimeUtils {
 
     public static Long getTimeStamp() {
         return LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8"));

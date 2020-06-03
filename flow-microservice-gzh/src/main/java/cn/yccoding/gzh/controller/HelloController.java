@@ -1,6 +1,5 @@
 package cn.yccoding.gzh.controller;
 
-import cn.yccoding.common.util.JasyptUtil;
 import cn.yccoding.gzh.service.CommonGzhService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

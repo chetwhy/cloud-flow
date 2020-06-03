@@ -11,7 +11,7 @@ import java.io.StringWriter;
  * @create 2020/3/3
  */
 @Slf4j
-public class ExceptionUtil {
+public class ExceptionUtils {
     /**
      * 打印异常信息
      */

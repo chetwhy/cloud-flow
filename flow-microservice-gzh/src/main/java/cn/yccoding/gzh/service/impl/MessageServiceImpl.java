@@ -1,7 +1,7 @@
 package cn.yccoding.gzh.service.impl;
 
-import cn.yccoding.common.util.DateTimeUtil;
-import cn.yccoding.common.util.XmlConvertUtil;
+import cn.yccoding.common.util.DateTimeUtils;
+import cn.yccoding.common.util.XmlConvertUtils;
 import cn.yccoding.gzh.constant.MsgType;
 import cn.yccoding.gzh.domain.ReplyMessage;
 import cn.yccoding.gzh.model.ImgReplyMsg;
@@ -33,7 +33,7 @@ public class MessageServiceImpl implements MessageService {
     public String handleMessage(RcvCommonMsg rcvCommonMsg) {
         String toUser = rcvCommonMsg.getFromUserName();
         String fromUser = rcvCommonMsg.getToUserName();
-        Long createTime = DateTimeUtil.getTimeStamp();
+        Long createTime = DateTimeUtils.getTimeStamp();
         String msgType = rcvCommonMsg.getMsgType();
 
         String replayMsg = null;
@@ -78,7 +78,7 @@ public class MessageServiceImpl implements MessageService {
         if (replyMessage != null && !replyMessage.getText().isEmpty()) {
             TextReplyMsg textReplyMsg = new TextReplyMsg().setToUserName(toUser).setFromUserName(fromUser)
                 .setCreateTime(createTime).setContent(replyMessage.getText());
-            return XmlConvertUtil.beanToXml(textReplyMsg, TextReplyMsg.class);
+            return XmlConvertUtils.beanToXml(textReplyMsg, TextReplyMsg.class);
         }
 
         return null;
@@ -88,14 +88,14 @@ public class MessageServiceImpl implements MessageService {
         throws JAXBException {
         ImgReplyMsg imgReplyMsg = new ImgReplyMsg().setToUserName(toUser).setFromUserName(fromUser)
             .setCreateTime(createTime).setMediaId(Arrays.asList(rcvMediaId));
-        return XmlConvertUtil.beanToXml(imgReplyMsg, ImgReplyMsg.class);
+        return XmlConvertUtils.beanToXml(imgReplyMsg, ImgReplyMsg.class);
     }
 
     private String handleVoiceMsg(String toUser, String fromUser, Long createTime, String rcvMediaId)
         throws JAXBException {
         VoiceReplyMsg voiceReplyMsg = new VoiceReplyMsg().setToUserName(toUser).setFromUserName(fromUser)
             .setCreateTime(createTime).setMediaId(Arrays.asList(rcvMediaId));
-        return XmlConvertUtil.beanToXml(voiceReplyMsg, VoiceReplyMsg.class);
+        return XmlConvertUtils.beanToXml(voiceReplyMsg, VoiceReplyMsg.class);
     }
 
     // 待完善
