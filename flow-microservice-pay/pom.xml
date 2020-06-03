@@ -11,6 +11,7 @@
 
     <artifactId>flow-microservice-pay</artifactId>
     <description>微信支付模块</description>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -50,7 +51,14 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
         </dependency>
-
-
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

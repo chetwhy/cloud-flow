@@ -10,7 +10,7 @@ import java.util.Arrays;
  * @Author YC
  * @create 2020/3/3
  */
-public class OfficialAccountUtil {
+public class SignatureUtils {
 
     @Value("${redis.active}")
     private Boolean redisActive;

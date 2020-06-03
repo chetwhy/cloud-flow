@@ -1,14 +1,16 @@
 package cn.yccoding.pay.sdk;
 
-import java.io.*;
-
 import cn.yccoding.pay.config.ConstantProperties;
+import org.springframework.stereotype.Service;
+
+import java.io.*;
 
 /**
  * @author : Chet
  * @description : WXPayConfig继承类
  * @date : 2019/11/1
  */
+@Service
 public class WXPayConfigImpl implements WXPayConfig {
 
     private byte[] certData;

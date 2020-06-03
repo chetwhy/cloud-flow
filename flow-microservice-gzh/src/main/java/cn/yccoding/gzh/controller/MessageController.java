@@ -3,7 +3,7 @@ package cn.yccoding.gzh.controller;
 import cn.yccoding.common.util.XmlConvertUtils;
 import cn.yccoding.gzh.model.RcvCommonMsg;
 import cn.yccoding.gzh.service.MessageService;
-import cn.yccoding.gzh.util.OfficialAccountUtil;
+import cn.yccoding.gzh.util.SignatureUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +34,7 @@ public class MessageController {
     @GetMapping("/portal")
     public String validateAccess(String signature, String timestamp, String nonce, String echostr) {
         log.info("开始测试接入微信...");
-        if (!OfficialAccountUtil.checkSignature(signature, timestamp, nonce)) {
+        if (!SignatureUtils.checkSignature(signature, timestamp, nonce)) {
             log.error("公众号接入失败");
             return null;
         }

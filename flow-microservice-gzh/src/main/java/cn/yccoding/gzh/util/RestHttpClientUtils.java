@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
  * @create 2020/3/6
  */
 @Component
-public class RestHttpClient {
+public class RestHttpClientUtils {
 
     @Autowired
     private RestTemplate restTemplate;

@@ -1,16 +1,6 @@
 package cn.yccoding.pay.sdk;
 
-import static cn.yccoding.wpp.sdk.WXPayConstants.USER_AGENT;
-
-import java.io.InputStream;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
-import java.security.KeyStore;
-import java.security.SecureRandom;
-
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-
+import cn.yccoding.pay.config.ConstantProperties;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -26,6 +16,16 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
+
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import java.io.InputStream;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+import java.security.KeyStore;
+import java.security.SecureRandom;
+
+import static cn.yccoding.pay.sdk.PaymentConstants.USER_AGENT;
 
 public class WXPayRequest {
     private WXPayConfig config;
@@ -103,7 +103,7 @@ public class WXPayRequest {
 
         StringEntity postEntity = new StringEntity(data, "UTF-8");
         httpPost.addHeader("Content-Type", "text/xml");
-        httpPost.addHeader("User-Agent", USER_AGENT + " " + config.getMchID());
+        httpPost.addHeader("User-Agent", USER_AGENT + " " + ConstantProperties.MUCH_ID);
         httpPost.setEntity(postEntity);
 
         HttpResponse httpResponse = httpClient.execute(httpPost);

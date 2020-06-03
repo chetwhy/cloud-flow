@@ -4,7 +4,7 @@ import cn.yccoding.gzh.config.ConstantProperties;
 import cn.yccoding.gzh.constant.GzhUrlConstant;
 import cn.yccoding.gzh.service.CommonGzhService;
 import cn.yccoding.gzh.service.RedisService;
-import cn.yccoding.gzh.util.RestHttpClient;
+import cn.yccoding.gzh.util.RestHttpClientUtils;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class CommonGzhServiceImpl implements CommonGzhService {
     // token过期时间
     public static Long expiresTime;
     @Autowired
-    private RestHttpClient restHttpClient;
+    private RestHttpClientUtils restHttpClientUtils;
     @Autowired
     private RedisService redisService;
 
@@ -38,7 +38,7 @@ public class CommonGzhServiceImpl implements CommonGzhService {
         if (accessToken != null) {
             return accessToken;
         }
-        JSONObject obj = restHttpClient.doGet(MessageFormat.format(GzhUrlConstant.BASE_ACCESS_TOKEN,
+        JSONObject obj = restHttpClientUtils.doGet(MessageFormat.format(GzhUrlConstant.BASE_ACCESS_TOKEN,
             ConstantProperties.APP_ID, ConstantProperties.APP_SECRET), JSONObject.class);
         String token = obj.getString("access_token"); // 凭据
         Long expiresIn = obj.getLong("expires_in"); // 有效期，单位秒
@@ -51,7 +51,7 @@ public class CommonGzhServiceImpl implements CommonGzhService {
         // 当accessToken为null或者失效才重新去获取
         if (localAccessToken == null
             || LocalDateTime.now().toInstant(ZoneOffset.ofHours(8)).toEpochMilli() > expiresTime) {
-            JSONObject obj = restHttpClient.doGet(MessageFormat.format(GzhUrlConstant.BASE_ACCESS_TOKEN,
+            JSONObject obj = restHttpClientUtils.doGet(MessageFormat.format(GzhUrlConstant.BASE_ACCESS_TOKEN,
                 ConstantProperties.APP_ID, ConstantProperties.APP_SECRET), JSONObject.class);
             localAccessToken = obj.getString("access_token");
             Long expires_in = obj.getLong("expires_in");

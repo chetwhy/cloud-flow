@@ -3,7 +3,7 @@ package cn.yccoding.gzh.service.impl;
 import cn.yccoding.gzh.constant.GzhUrlConstant;
 import cn.yccoding.gzh.service.CommonGzhService;
 import cn.yccoding.gzh.service.CustomMenuService;
-import cn.yccoding.gzh.util.RestHttpClient;
+import cn.yccoding.gzh.util.RestHttpClientUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.text.MessageFormat;
 public class CustomMenuServiceImpl implements CustomMenuService {
 
     @Autowired
-    private RestHttpClient restHttpClient;
+    private RestHttpClientUtils restHttpClientUtils;
     
     @Autowired
     private CommonGzhService commonGzhService;
@@ -29,19 +29,19 @@ public class CustomMenuServiceImpl implements CustomMenuService {
     @Override
     public String createMenu(String menuJson) {
         String toUrl = MessageFormat.format(GzhUrlConstant.MENU_CREATE, getAccessToken());
-        return restHttpClient.doPost(toUrl, menuJson);
+        return restHttpClientUtils.doPost(toUrl, menuJson);
     }
 
     @Override
     public String getMenu() {
         String toUrl = MessageFormat.format(GzhUrlConstant.MENU_QUERY, getAccessToken());
-        return restHttpClient.doGet(toUrl);
+        return restHttpClientUtils.doGet(toUrl);
     }
 
     @Override
     public String deleteMenu() {
         String toUrl = MessageFormat.format(GzhUrlConstant.MENU_DELETE, getAccessToken());
-        return restHttpClient.doGet(toUrl);
+        return restHttpClientUtils.doGet(toUrl);
     }
 
     private String getAccessToken() {

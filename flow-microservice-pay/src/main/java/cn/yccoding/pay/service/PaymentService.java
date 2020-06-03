@@ -1,10 +1,9 @@
 package cn.yccoding.pay.service;
 
 import cn.yccoding.common.util.CurrencyUtils;
-import cn.yccoding.pay.config.ConstantProperties;
-import cn.yccoding.pay.form.UnifiedOrderRequestForm;
-import cn.yccoding.pay.sdk.WXPay;
+import cn.yccoding.pay.form.*;
 import cn.yccoding.pay.sdk.PaymentConstants;
+import cn.yccoding.pay.sdk.WXPay;
 import cn.yccoding.pay.sdk.WXPayUtil;
 import cn.yccoding.pay.util.SignatureUtils;
 import com.alibaba.fastjson.JSON;
@@ -62,7 +61,7 @@ public class PaymentService {
                     && respMap.get("result_code").equals((PaymentConstants.SUCCESS))) {
                 String prepayId = respMap.get("prepay_id");
                 return SignatureUtils.permissionValidate(APP_ID, nonceStr, requestUrl, prepayId,
-                        API_KEY,wppBackendUtil.getJsApiTicket(wppBackendUtil.getAccessToken(wcpConfigParams.getAppId())));
+                        API_KEY,tokenService.getJsApiTicket(tokenService.getAccessToken(APP_ID)));
             } else if (!respMap.get("return_code").equals(PaymentConstants.SUCCESS)) {
                 Map<String, Object> map = new HashMap<>();
                 for (String key : respMap.keySet()) {
@@ -76,23 +75,29 @@ public class PaymentService {
         return null;
     }
 
+    @Autowired
+    private PaymentService paymentService;
+
+    @Autowired
+    private TokenService tokenService;
+
     /**
      * 通用微信支付的调用方法，参数灵活
-     * @param requestEntity UnifiedOrderRequestEntity统一下单的实体类
+     * @param requestForm UnifiedOrderRequestEntity统一下单的实体类
      * @param requestUrl    请求来源的url
      * @return
      */
-    public Map<String, Object> unifiedorder(UnifiedOrderRequestEntity requestEntity, String requestUrl) {
+    public Map<String, Object> unifiedorder(UnifiedOrderRequestForm requestForm, String requestUrl) {
         try {
-            String nonceStr = requestEntity.getNonceStr();
-            Map<String, String> respMap = wxPayDefault.unifiedOrder(beanToMap(requestEntity));
+            String nonceStr = requestForm.getNonceStr();
+            Map<String, String> respMap = wxPayDefault.unifiedOrder(beanToMap(requestForm));
 
             // 统一下单接口调用成功
             if (respMap.get("return_code").equals(PaymentConstants.SUCCESS)
                     && respMap.get("result_code").equals((PaymentConstants.SUCCESS))) {
                 String prepayId = respMap.get("prepay_id");
-                return wppSignatureUtil.permissionValidate(wcpConfigParams.getAppId(), nonceStr, requestUrl, prepayId,
-                        wcpConfigParams.getApiKey(),wppBackendUtil.getJsApiTicket(wppBackendUtil.getAccessToken(wcpConfigParams.getAppId())));
+                return SignatureUtils.permissionValidate(APP_ID, nonceStr, requestUrl, prepayId,
+                        API_KEY,tokenService.getJsApiTicket(tokenService.getAccessToken(APP_ID)));
             } else if (!respMap.get("return_code").equals(PaymentConstants.SUCCESS)) {
                 Map<String, Object> map = new HashMap<>();
                 for (String key : respMap.keySet()) {
@@ -106,12 +111,12 @@ public class PaymentService {
         return null;
     }
 
-    public Map<String, String> orderquery(String outTradeNo) {
+    public Map<String, String> orderQuery(String outTradeNo) {
         try {
-            OrderQueryRequestEntity requestEntity = new OrderQueryRequestEntity();
-            requestEntity.setOutTradeNo(outTradeNo);
-            requestEntity.setNonceStr(WXPayUtil.generateNonceStr());
-            Map<String, String> map = orderquery(requestEntity);
+            OrderQueryRequestForm requestForm = new OrderQueryRequestForm();
+            requestForm.setOutTradeNo(outTradeNo);
+            requestForm.setNonceStr(WXPayUtil.generateNonceStr());
+            Map<String, String> map = orderQuery(requestForm);
             return map;
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,30 +124,30 @@ public class PaymentService {
         return null;
     }
 
-    public Map<String, String> orderquery(OrderQueryRequestEntity requestEntity) {
+    public Map<String, String> orderQuery(OrderQueryRequestForm requestForm) {
         try {
-            return wxPayDefault.orderQuery(beanToMap(requestEntity));
+            return wxPayDefault.orderQuery(beanToMap(requestForm));
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Map<String, String> closeorder(String outTradeNo) {
+    public Map<String, String> closeOrder(String outTradeNo) {
         try {
-            CloseOrderRequestEntity requestEntity = new CloseOrderRequestEntity();
-            requestEntity.setOutTradeNo(outTradeNo);
-            requestEntity.setNonceStr(WXPayUtil.generateNonceStr());
-            return closeorder(requestEntity);
+            CloseOrderRequestForm requestForm = new CloseOrderRequestForm();
+            requestForm.setOutTradeNo(outTradeNo);
+            requestForm.setNonceStr(WXPayUtil.generateNonceStr());
+            return closeOrder(requestForm);
         } catch (Exception e) {
             WXPayUtil.getLogger().error("调用微信接口closeorder失败 ：{}", e.getMessage());
         }
         return null;
     }
 
-    public Map<String, String> closeorder(CloseOrderRequestEntity requestEntity) {
+    public Map<String, String> closeOrder(CloseOrderRequestForm requestForm) {
         try {
-            return wxPayDefault.closeOrder(beanToMap(requestEntity));
+            return wxPayDefault.closeOrder(beanToMap(requestForm));
         } catch (Exception e) {
             WXPayUtil.getLogger().error("调用微信接口closeorder失败 ：{}", e.getMessage());
         }
@@ -151,139 +156,139 @@ public class PaymentService {
 
     public Map<String, String> refund(String outTradeNo, String outRefundNo, String totalFee, String refundFee) {
         try {
-            RefundRequestEntity requestEntity = new RefundRequestEntity();
-            requestEntity.setNonceStr(WXPayUtil.generateNonceStr());
-            requestEntity.setOutRefundNo(outRefundNo);
-            requestEntity.setOutTradeNo(outTradeNo);
-            requestEntity.setRefundFee(refundFee);
-            requestEntity.setTotalFee(totalFee);
+            RefundRequestForm requestForm = new RefundRequestForm();
+            requestForm.setNonceStr(WXPayUtil.generateNonceStr());
+            requestForm.setOutRefundNo(outRefundNo);
+            requestForm.setOutTradeNo(outTradeNo);
+            requestForm.setRefundFee(refundFee);
+            requestForm.setTotalFee(totalFee);
 
-            return refund(requestEntity);
+            return refund(requestForm);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Map<String, String> refund(RefundRequestEntity requestEntity) {
+    public Map<String, String> refund(RefundRequestForm requestForm) {
         try {
-            return wxPayDefault.refund(beanToMap(requestEntity));
+            return wxPayDefault.refund(beanToMap(requestForm));
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Map<String, String> refundquery(String outTradeNo) {
+    public Map<String, String> refundQuery(String outTradeNo) {
         try {
-            RefundQueryRequestEntity requestEntity = new RefundQueryRequestEntity();
-            requestEntity.setNonceStr(WXPayUtil.generateNonceStr());
-            requestEntity.setOutTradeNo(outTradeNo);
-            return refundquery(requestEntity);
+            RefundQueryRequestForm requestForm = new RefundQueryRequestForm();
+            requestForm.setNonceStr(WXPayUtil.generateNonceStr());
+            requestForm.setOutTradeNo(outTradeNo);
+            return refundQuery(requestForm);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Map<String, String> refundquery(RefundQueryRequestEntity requestEntity) {
+    public Map<String, String> refundQuery(RefundQueryRequestForm requestForm) {
         try {
-            return wxPayDefault.refund(beanToMap(requestEntity));
+            return wxPayDefault.refund(beanToMap(requestForm));
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Map<String, String> downloadbill(String billDate, String billType) {
+    public Map<String, String> downloadBill(String billDate, String billType) {
         try {
-            DownloadBillRequestEntity requestEntity = new DownloadBillRequestEntity();
-            requestEntity.setBillDate(billDate);
-            requestEntity.setBillType(billType);
-            requestEntity.setNonceStr(WXPayUtil.generateNonceStr());
-            return downloadbill(requestEntity);
+            DownloadBillRequestForm requestForm = new DownloadBillRequestForm();
+            requestForm.setBillDate(billDate);
+            requestForm.setBillType(billType);
+            requestForm.setNonceStr(WXPayUtil.generateNonceStr());
+            return downloadBill(requestForm);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Map<String, String> downloadbill(DownloadBillRequestEntity requestEntity) {
+    public Map<String, String> downloadBill(DownloadBillRequestForm requestForm) {
         try {
-            return wxPayDefault.downloadBill(beanToMap(requestEntity));
+            return wxPayDefault.downloadBill(beanToMap(requestForm));
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Map<String, String> downloadfundflow(String billDate, String accountType) {
+    public Map<String, String> downloadFundFlow(String billDate, String accountType) {
         try {
-            DownloadFundFlowRequestEntity requestEntity = new DownloadFundFlowRequestEntity();
-            requestEntity.setBillDate(billDate);
-            requestEntity.setAccountType(accountType);
-            return downloadfundflow(requestEntity);
+            DownloadFundFlowRequestForm requestForm = new DownloadFundFlowRequestForm();
+            requestForm.setBillDate(billDate);
+            requestForm.setAccountType(accountType);
+            return downloadFundFlow(requestForm);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Map<String, String> downloadfundflow(DownloadFundFlowRequestEntity requestEntity) {
+    public Map<String, String> downloadFundFlow(DownloadFundFlowRequestForm requestForm) {
         try {
-            return wxPayDefault.downloadfundflow(beanToMap(requestEntity));
+            return wxPayDefault.downloadfundflow(beanToMap(requestForm));
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Map<String, String> payitilreport(String interfaceUrl, String executeTime, String returnCode,
+    public Map<String, String> payitilReport(String interfaceUrl, String executeTime, String returnCode,
                                              String returnMsg, String resultCode, String userIp) {
         try {
-            ReportRequestEntity requestEntity = new ReportRequestEntity();
+            ReportRequestForm requestForm = new ReportRequestForm();
 
-            requestEntity.setNonceStr(WXPayUtil.generateNonceStr());
-            requestEntity.setInterfaceUrl(interfaceUrl);
-            requestEntity.setExecuteTime(executeTime);
-            requestEntity.setReturnCode(returnCode);
-            requestEntity.setReturnMsg(returnMsg);
-            requestEntity.setResultCode(resultCode);
-            requestEntity.setUserIp(userIp);
+            requestForm.setNonceStr(WXPayUtil.generateNonceStr());
+            requestForm.setInterfaceUrl(interfaceUrl);
+            requestForm.setExecuteTime(executeTime);
+            requestForm.setReturnCode(returnCode);
+            requestForm.setReturnMsg(returnMsg);
+            requestForm.setResultCode(resultCode);
+            requestForm.setUserIp(userIp);
 
-            return payitilreport(requestEntity);
+            return payitilReport(requestForm);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Map<String, String> payitilreport(ReportRequestEntity requestEntity) {
+    public Map<String, String> payitilReport(ReportRequestForm requestForm) {
         try {
-            return wxPayDefault.report(beanToMap(requestEntity));
+            return wxPayDefault.report(beanToMap(requestForm));
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Map<String, String> batchquerycomment(String beginTime, String endTime, String offset) {
+    public Map<String, String> batchQueryComment(String beginTime, String endTime, String offset) {
         try {
-            BatchQueryCommentRequestEntity requestEntity = new BatchQueryCommentRequestEntity();
-            requestEntity.setBeginTime(beginTime);
-            requestEntity.setEndTime(endTime);
-            requestEntity.setOffset("0");
+            BatchQueryCommentRequestForm requestForm = new BatchQueryCommentRequestForm();
+            requestForm.setBeginTime(beginTime);
+            requestForm.setEndTime(endTime);
+            requestForm.setOffset("0");
 
-            return batchquerycomment(requestEntity);
+            return batchQueryComment(requestForm);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Map<String, String> batchquerycomment(BatchQueryCommentRequestEntity requestEntity) {
+    public Map<String, String> batchQueryComment(BatchQueryCommentRequestForm requestForm) {
         try {
-            return wxPayDefault.batchQueryComment(beanToMap(requestEntity));
+            return wxPayDefault.batchQueryComment(beanToMap(requestForm));
         } catch (Exception e) {
             e.printStackTrace();
         }
