@@ -1,6 +1,6 @@
 package cn.yccoding.common.util;
 
-import com.sun.xml.internal.bind.marshaller.CharacterEscapeHandler;
+//import com.sun.xml.internal.bind.marshaller.CharacterEscapeHandler;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -57,8 +57,8 @@ public class XmlConvertUtil {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
             // 不转义，根据需要添加
-            marshaller.setProperty(CharacterEscapeHandler.class.getName(),
-                (CharacterEscapeHandler)(chars, start, length, isAttVal, writer) -> writer.write(chars, start, length));
+            /*marshaller.setProperty(CharacterEscapeHandler.class.getName(),
+                (CharacterEscapeHandler)(chars, start, length, isAttVal, writer) -> writer.write(chars, start, length));*/
             StringWriter writer = new StringWriter();
             marshaller.marshal(obj, writer);
             result = writer.toString();
