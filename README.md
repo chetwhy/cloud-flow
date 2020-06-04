@@ -8,7 +8,7 @@ SpringBoot 2.0.7.RELEASE
 
 ## 模块简介
 
-```xml
+```
 cloud-flow
 |—— flow-framework-parent 父项目，管理版本依赖
     |—— flow-framework-common       公共模块，为各个子模块调用
@@ -16,6 +16,7 @@ cloud-flow
     |—— flow-microservice-blob      blob数据库模块，主要实现文件上传到azure blob
     |—— flow-microservice-mail      邮件发送功能，rabbitmq监听
     |—— flow-microservice-manage    后台管理模块
+    |—— flow-microservice-pay       微信支付模块
 ```
 
 ## 启动说明

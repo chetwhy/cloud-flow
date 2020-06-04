@@ -8,7 +8,6 @@ import cn.yccoding.pay.sdk.WXPayUtil;
 import cn.yccoding.pay.util.SignatureUtils;
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
-import static cn.yccoding.pay.config.ConstantProperties.*;
+import static cn.yccoding.pay.util.ConstantPropertyUtils.*;
 
 /**
  * @author YC
@@ -26,8 +25,7 @@ import static cn.yccoding.pay.config.ConstantProperties.*;
 public class PaymentService {
 
     @Autowired
-    @Qualifier("wxPayDefault")
-    private WXPay wxPayDefault;
+    private WXPay wxPay;
 
     /**
      * 统一下单接口，输入指定参数，只关心必要参数
@@ -54,7 +52,7 @@ public class PaymentService {
             requestEntity.setNotifyUrl(NOTIFY_URL);
 
             // 利用sdk统一下单,已自动调用wxpay.fillRequestData(data);
-            Map<String, String> respMap = wxPayDefault.unifiedOrder(beanToMap(requestEntity));
+            Map<String, String> respMap = wxPay.unifiedOrder(beanToMap(requestEntity));
 
             // 统一下单接口调用成功
             if (respMap.get("return_code").equals(PaymentConstants.SUCCESS)
@@ -90,7 +88,7 @@ public class PaymentService {
     public Map<String, Object> unifiedorder(UnifiedOrderRequestForm requestForm, String requestUrl) {
         try {
             String nonceStr = requestForm.getNonceStr();
-            Map<String, String> respMap = wxPayDefault.unifiedOrder(beanToMap(requestForm));
+            Map<String, String> respMap = wxPay.unifiedOrder(beanToMap(requestForm));
 
             // 统一下单接口调用成功
             if (respMap.get("return_code").equals(PaymentConstants.SUCCESS)
@@ -126,7 +124,7 @@ public class PaymentService {
 
     public Map<String, String> orderQuery(OrderQueryRequestForm requestForm) {
         try {
-            return wxPayDefault.orderQuery(beanToMap(requestForm));
+            return wxPay.orderQuery(beanToMap(requestForm));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -147,7 +145,7 @@ public class PaymentService {
 
     public Map<String, String> closeOrder(CloseOrderRequestForm requestForm) {
         try {
-            return wxPayDefault.closeOrder(beanToMap(requestForm));
+            return wxPay.closeOrder(beanToMap(requestForm));
         } catch (Exception e) {
             WXPayUtil.getLogger().error("调用微信接口closeorder失败 ：{}", e.getMessage());
         }
@@ -172,7 +170,7 @@ public class PaymentService {
 
     public Map<String, String> refund(RefundRequestForm requestForm) {
         try {
-            return wxPayDefault.refund(beanToMap(requestForm));
+            return wxPay.refund(beanToMap(requestForm));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -193,7 +191,7 @@ public class PaymentService {
 
     public Map<String, String> refundQuery(RefundQueryRequestForm requestForm) {
         try {
-            return wxPayDefault.refund(beanToMap(requestForm));
+            return wxPay.refund(beanToMap(requestForm));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -215,7 +213,7 @@ public class PaymentService {
 
     public Map<String, String> downloadBill(DownloadBillRequestForm requestForm) {
         try {
-            return wxPayDefault.downloadBill(beanToMap(requestForm));
+            return wxPay.downloadBill(beanToMap(requestForm));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -236,7 +234,7 @@ public class PaymentService {
 
     public Map<String, String> downloadFundFlow(DownloadFundFlowRequestForm requestForm) {
         try {
-            return wxPayDefault.downloadfundflow(beanToMap(requestForm));
+            return wxPay.downloadfundflow(beanToMap(requestForm));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -265,7 +263,7 @@ public class PaymentService {
 
     public Map<String, String> payitilReport(ReportRequestForm requestForm) {
         try {
-            return wxPayDefault.report(beanToMap(requestForm));
+            return wxPay.report(beanToMap(requestForm));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -288,7 +286,7 @@ public class PaymentService {
 
     public Map<String, String> batchQueryComment(BatchQueryCommentRequestForm requestForm) {
         try {
-            return wxPayDefault.batchQueryComment(beanToMap(requestForm));
+            return wxPay.batchQueryComment(beanToMap(requestForm));
         } catch (Exception e) {
             e.printStackTrace();
         }

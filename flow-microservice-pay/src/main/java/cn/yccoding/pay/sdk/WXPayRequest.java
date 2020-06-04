@@ -1,6 +1,6 @@
 package cn.yccoding.pay.sdk;
 
-import cn.yccoding.pay.config.ConstantProperties;
+import cn.yccoding.pay.util.ConstantPropertyUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -103,7 +103,7 @@ public class WXPayRequest {
 
         StringEntity postEntity = new StringEntity(data, "UTF-8");
         httpPost.addHeader("Content-Type", "text/xml");
-        httpPost.addHeader("User-Agent", USER_AGENT + " " + ConstantProperties.MUCH_ID);
+        httpPost.addHeader("User-Agent", USER_AGENT + " " + ConstantPropertyUtils.MUCH_ID);
         httpPost.setEntity(postEntity);
 
         HttpResponse httpResponse = httpClient.execute(httpPost);

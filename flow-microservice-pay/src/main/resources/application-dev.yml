@@ -1,2 +1,15 @@
-server:
-  port: 9410
+we-chat:
+  app-id: ENC(9rFAkSlAGBYLusK4Pihz7HIF0H2rAxIZJ/v+fUGsV8s=)
+  app-secret: ENC(76KrqP1SGR4v+6AchUwgMRIWv+ZhA1bd66+jbJTxWHP2US/yLHCL9WO2PwmmtvIF)
+  much-id: ENC(OqBNQG0JxUMYsXB3ivg/S1moq4ja9wqP)
+  api-key: ENC(cazDnvaDRgs5hAujM0C6b1cVOvwxpNDQ1nqjwohqxqogfidOa/BtdrCjOalLZeJQ)
+  register-domain: ENC(v7oe2j+avle9D9vQtQ9IySAxr0BBm3NK)
+  jsapi-payment-auth-dir: ENC(vg4VaILoU3WmVxEAQ4oDYUbYzYF6Owws)
+  js-domain: ENC(Z9nwj0iMMNN29WpT0kj0Y439SEKKK7fP)
+  web-auth-domain: ENC(Z9nwj0iMMNN29WpT0kj0Y439SEKKK7fP)
+  apiclient-cert:
+  notify-url:
+  notify-url-refund:
+
+redis:
+  active: true

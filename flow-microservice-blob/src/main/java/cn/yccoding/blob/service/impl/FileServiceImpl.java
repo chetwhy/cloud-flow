@@ -1,6 +1,6 @@
 package cn.yccoding.blob.service.impl;
 
-import static cn.yccoding.blob.config.ConstantPropertiesUtil.*;
+import static cn.yccoding.blob.util.ConstantPropertyUtils.*;
 
 import java.io.OutputStream;
 import java.net.URLEncoder;
@@ -29,7 +29,7 @@ import com.microsoft.azure.storage.blob.ListBlobItem;
 import cn.yccoding.blob.asynctask.BlobTask;
 import cn.yccoding.blob.model.BlobUpload;
 import cn.yccoding.blob.service.FileService;
-import cn.yccoding.blob.util.BlobUtil;
+import cn.yccoding.blob.util.BlobUtils;
 import cn.yccoding.common.contants.ResultCodeEnum;
 import cn.yccoding.common.exception.CustomException;
 import lombok.extern.slf4j.Slf4j;
@@ -152,7 +152,7 @@ public class FileServiceImpl implements FileService {
         String storageConnectionString =
             String.format("DefaultEndpointsProtocol=%s;AccountName=%s;AccountKey=%s;EndpointSuffix=%s",
                 DEFAULT_ENDPOINTS_PROTOCOL, ACCOUNT_NAME, ACCOUNT_KEY, ENDPOINT_SUFFIX);
-        CloudBlobContainer container = BlobUtil.getAzureContainer(storageConnectionString, containerName);
+        CloudBlobContainer container = BlobUtils.getAzureContainer(storageConnectionString, containerName);
         if (container == null) {
             log.error("获取blob container异常");
             throw new CustomException(ResultCodeEnum.GET_BLOB_CONTAINER_ERROR);

@@ -15,7 +15,7 @@ import com.microsoft.azure.storage.blob.CloudBlobContainer;
  * @date : 2020/1/3
  */
 @Slf4j
-public class BlobUtil {
+public class BlobUtils {
 
     /**
      * 获取blob container

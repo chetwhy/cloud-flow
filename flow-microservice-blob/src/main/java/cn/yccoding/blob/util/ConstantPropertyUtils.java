@@ -1,4 +1,4 @@
-package cn.yccoding.blob.config;
+package cn.yccoding.blob.util;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 //@PropertySource("classpath:application.properties") // 特别指定时使用
-public class ConstantPropertiesUtil implements InitializingBean {
+public class ConstantPropertyUtils implements InitializingBean {
 
     @Value("${azure.storage.default-endpoints-protocol}")
     private String defaultEndpointsProtocol;
