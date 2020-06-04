@@ -22,8 +22,7 @@ import java.util.*;
 
 /**
  * @Author YC
- * @create 2020/5/1
- * 测试类
+ * @create 2020/5/1 测试类
  */
 @ActiveProfiles("dev")
 @SpringBootTest
@@ -31,6 +30,8 @@ import java.util.*;
 public class SendGridTest {
     @Autowired
     private JavaMailSender mailSender;
+    @Autowired
+    private TemplateEngine templateEngine;
 
     /**
      * web api方式发送邮件
@@ -38,8 +39,8 @@ public class SendGridTest {
     @Test
     public void testWebApi() {
         Map<String, Object> map = new HashMap<>();
-        map.put("username","admin");
-        map.put("password","123123");
+        map.put("username", "admin");
+        map.put("password", "123123");
         Context context = new Context();
         context.setLocale(Locale.CHINA);
         context.setVariables(map);
@@ -87,20 +88,15 @@ public class SendGridTest {
         mailSender.send(mailMessage);
     }
 
-    @Autowired
-    private TemplateEngine templateEngine;
-
     /**
      * smtp方式发送邮件
+     * 
      * @throws MessagingException
      */
     @Test
     public void sendSMTPRelayHtml() throws MessagingException {
-        String html = "<html>\n" +
-                "<body>\n" +
-                "<h1>Hello this is test mail from java!</h1>\n" +
-                "</body>\n" +
-                "</html>";
+        String html =
+            "<html>\n" + "<body>\n" + "<h1>Hello this is test mail from java!</h1>\n" + "</body>\n" + "</html>";
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
@@ -115,13 +111,14 @@ public class SendGridTest {
 
     /**
      * 测试stmp发送thyleaf邮件
+     * 
      * @throws MessagingException
      */
     @Test
     public void sendSMTPRelayHtml2() throws MessagingException {
         Map<String, Object> map = new HashMap<>();
-        map.put("username","admin");
-        map.put("password","123123");
+        map.put("username", "admin");
+        map.put("password", "123123");
         Context context = new Context();
         context.setLocale(Locale.CHINA);
         context.setVariables(map);
