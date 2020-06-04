@@ -1,6 +1,6 @@
 package cn.yccoding.gzh.service.impl;
 
-import cn.yccoding.gzh.config.ConstantProperties;
+import cn.yccoding.gzh.util.ConstantPropertyUtils;
 import cn.yccoding.gzh.constant.GzhUrlConstant;
 import cn.yccoding.gzh.service.CommonGzhService;
 import cn.yccoding.gzh.service.RedisService;
@@ -33,13 +33,13 @@ public class CommonGzhServiceImpl implements CommonGzhService {
 
     @Override
     public String getRedisAccessToken() {
-        String key = WECHAT_ACCESSTOKEN_PROFIX + ConstantProperties.APP_ID + WECHAT_ACCESSTOKEN_SUFFIX;
+        String key = WECHAT_ACCESSTOKEN_PROFIX + ConstantPropertyUtils.APP_ID + WECHAT_ACCESSTOKEN_SUFFIX;
         String accessToken = redisService.get(key);
         if (accessToken != null) {
             return accessToken;
         }
         JSONObject obj = restHttpClientUtils.doGet(MessageFormat.format(GzhUrlConstant.BASE_ACCESS_TOKEN,
-            ConstantProperties.APP_ID, ConstantProperties.APP_SECRET), JSONObject.class);
+            ConstantPropertyUtils.APP_ID, ConstantPropertyUtils.APP_SECRET), JSONObject.class);
         String token = obj.getString("access_token"); // 凭据
         Long expiresIn = obj.getLong("expires_in"); // 有效期，单位秒
         redisService.set(key, token, (expiresIn - 5 * 60L) * 1000); // 提前五分钟过期
@@ -52,7 +52,7 @@ public class CommonGzhServiceImpl implements CommonGzhService {
         if (localAccessToken == null
             || LocalDateTime.now().toInstant(ZoneOffset.ofHours(8)).toEpochMilli() > expiresTime) {
             JSONObject obj = restHttpClientUtils.doGet(MessageFormat.format(GzhUrlConstant.BASE_ACCESS_TOKEN,
-                ConstantProperties.APP_ID, ConstantProperties.APP_SECRET), JSONObject.class);
+                ConstantPropertyUtils.APP_ID, ConstantPropertyUtils.APP_SECRET), JSONObject.class);
             localAccessToken = obj.getString("access_token");
             Long expires_in = obj.getLong("expires_in");
             // 设置凭据的失效时间 = 当前时间+有效期

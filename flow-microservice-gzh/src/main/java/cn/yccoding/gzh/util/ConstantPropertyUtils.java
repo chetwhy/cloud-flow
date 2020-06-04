@@ -1,4 +1,4 @@
-package cn.yccoding.gzh.config;
+package cn.yccoding.gzh.util;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * 公众号配置属性
  */
 @Component
-public class ConstantProperties implements InitializingBean {
+public class ConstantPropertyUtils implements InitializingBean {
 
     // 公众号id
     @Value("${weChat.APP_ID}")

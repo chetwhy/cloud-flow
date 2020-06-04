@@ -1,7 +1,6 @@
 package cn.yccoding.gzh.util;
 
 import cn.yccoding.common.util.SecurityUtils;
-import cn.yccoding.gzh.config.ConstantProperties;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Arrays;
@@ -27,7 +26,7 @@ public class SignatureUtils {
      */
     public static Boolean checkSignature(String signature, String timestamp, String nonce) {
         // 1 将token、timestamp、nonce三个参数进行字典序排序
-        String[] arr = {ConstantProperties.INTERFACE_TOKEN, timestamp, nonce};
+        String[] arr = {ConstantPropertyUtils.INTERFACE_TOKEN, timestamp, nonce};
         Arrays.sort(arr);
         // 2 将三个参数字符串拼接成一个字符串进行sha1加密
         StringBuffer sb = new StringBuffer();

@@ -10,8 +10,8 @@ import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
-import static cn.yccoding.pay.config.ConstantProperties.APP_ID;
-import static cn.yccoding.pay.config.ConstantProperties.APP_SECRET;
+import static cn.yccoding.pay.util.ConstantPropertyUtils.APP_ID;
+import static cn.yccoding.pay.util.ConstantPropertyUtils.APP_SECRET;
 
 /**
  * @Author YC

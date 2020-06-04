@@ -1,6 +1,6 @@
 package cn.yccoding.pay.sdk;
 
-import cn.yccoding.pay.config.ConstantProperties;
+import cn.yccoding.pay.util.ConstantPropertyUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -10,35 +10,37 @@ import java.io.*;
  * @description : WXPayConfig继承类
  * @date : 2019/11/1
  */
-@Service
 public class WXPayConfigImpl implements WXPayConfig {
 
     private byte[] certData;
 
-    public WXPayConfigImpl() throws IOException {
-        String certPath = ConstantProperties.APICLIENT_CERT;
+    /**
+     * 加载证书
+     */
+    /*public WXPayConfigImpl() throws IOException {
+        String certPath = ConstantPropertyUtils.APICLIENT_CERT;
         File file = new File(certPath);
         InputStream certStream = new FileInputStream(file);
         this.certData = new byte[(int)file.length()];
         certStream.read(this.certData);
         certStream.close();
-    }
+    }*/
 
-    // public WXPayConfigImpl() {}
+    public WXPayConfigImpl() {}
 
     @Override
     public String getAppID() {
-        return ConstantProperties.APP_ID;
+        return ConstantPropertyUtils.APP_ID;
     }
 
     @Override
     public String getMchID() {
-        return ConstantProperties.MUCH_ID;
+        return ConstantPropertyUtils.MUCH_ID;
     }
 
     @Override
     public String getKey() {
-        return ConstantProperties.API_KEY;
+        return ConstantPropertyUtils.API_KEY;
     }
 
     @Override

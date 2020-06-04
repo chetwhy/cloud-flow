@@ -1,6 +1,6 @@
 package cn.yccoding.pay;
 
-import cn.yccoding.pay.config.ConstantProperties;
+import cn.yccoding.pay.util.ConstantPropertyUtils;
 import cn.yccoding.pay.form.*;
 import cn.yccoding.pay.sdk.PaymentConstants;
 import cn.yccoding.pay.sdk.WXPayConfigImpl;
@@ -42,7 +42,7 @@ public class WppApplicationTests {
         requestForm.setTotalFee("1");
         requestForm.setNotifyUrl("1");
         requestForm.setNonceStr(WXPayUtil.generateNonceStr());
-        requestForm.setNotifyUrl(ConstantProperties.NOTIFY_URL);
+        requestForm.setNotifyUrl(ConstantPropertyUtils.NOTIFY_URL);
         Map<String, Object> result2 = paymentService.unifiedorder(requestForm, url);
         System.out.println(result1);
         System.out.println(result2);

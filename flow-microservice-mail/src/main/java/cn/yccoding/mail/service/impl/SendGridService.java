@@ -1,6 +1,6 @@
 package cn.yccoding.mail.service.impl;
 
-import cn.yccoding.mail.config.ConstantProperties;
+import cn.yccoding.mail.util.ConstantPropertyUtils;
 import cn.yccoding.mail.form.sendgrid.ContentForm;
 import cn.yccoding.mail.form.sendgrid.MailInfoForm;
 import cn.yccoding.mail.form.sendgrid.MailRequestForm;
@@ -27,7 +27,7 @@ public class SendGridService {
      * 发送邮件
      */
     public boolean sendMail(MailRequestForm requestForm) {
-        SendGrid sg = new SendGrid(ConstantProperties.API_KEY);
+        SendGrid sg = new SendGrid(ConstantPropertyUtils.API_KEY);
         Request request = new Request();
 
         Mail mail = buildMail(requestForm);
@@ -54,8 +54,8 @@ public class SendGridService {
 
         // from
         Email fromEmail = new Email();
-        fromEmail.setName(ConstantProperties.FROM_NAME);
-        fromEmail.setEmail(ConstantProperties.FROM_EMAIL);
+        fromEmail.setName(ConstantPropertyUtils.FROM_NAME);
+        fromEmail.setEmail(ConstantPropertyUtils.FROM_EMAIL);
         mail.setFrom(fromEmail);
 
         // subject

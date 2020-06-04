@@ -1,4 +1,4 @@
-package cn.yccoding.mail.config;
+package cn.yccoding.mail.util;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @create 2020/4/4
  */
 @Component
-public class ConstantProperties implements InitializingBean {
+public class ConstantPropertyUtils implements InitializingBean {
 
     @Value("${sendgrid.from.name}")
     private String fromName;
