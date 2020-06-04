@@ -2,8 +2,8 @@ spring:
   # rabbitmq
   rabbitmq:
     host: 120.79.27.209
-    username:
-    password:
+    username: root
+    password: ENC(N6Q1PFu/R9XSs9XSL47ATg==)
     virtual-host: /
     listener:
       simple:
@@ -15,7 +15,7 @@ spring:
     password:
 #    host: smtp.sendgrid.net
 #    username: apikey
-#    password: 密钥内容
+#    password: ENC(5LqJgyN59KWGpKowyX3kMcx7MJtBKb+055adCF0H6/vConVPsArsQmQQmckdOW7h5nI4EXQmpta1u47oJJQhBYcQF3IBiU3Y7kfUG80yUiE=)
     default-encoding: utf-8
     port: 587
     properties:
@@ -35,10 +35,10 @@ spring:
     #redis服务端口，默认6379
     port: 6379
     #redis密码，默认为空
-    password:
+    password: ENC(f9h/Sri/1QbNLl9EaFsBIg==)
 # +++++++++++++++++++++++ 配置send grid +++++++++++++++++++++++
 sendgrid:
   from:
     name: chet
-    email:
-  api-key:
+    email: yuan691409320@gmail.com
+  api-key: ENC(5LqJgyN59KWGpKowyX3kMcx7MJtBKb+055adCF0H6/vConVPsArsQmQQmckdOW7h5nI4EXQmpta1u47oJJQhBYcQF3IBiU3Y7kfUG80yUiE=)
