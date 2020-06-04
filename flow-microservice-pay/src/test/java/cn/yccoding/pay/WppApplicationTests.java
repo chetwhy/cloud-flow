@@ -21,9 +21,6 @@ import java.util.Map;
 public class WppApplicationTests {
 
     @Autowired
-    private WXPayConfigImpl wxPayConfigImpl;
-
-    @Autowired
     private PaymentService paymentService;
 
     @Test
