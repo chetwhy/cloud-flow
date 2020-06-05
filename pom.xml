@@ -11,6 +11,7 @@
         <module>flow-microservice-mail</module>
         <module>flow-microservice-ucenter</module>
         <module>flow-microservice-pay</module>
+        <module>flow-microservice-order</module>
     </modules>
     <!--模块信息-->
     <groupId>cn.yccoding</groupId>
