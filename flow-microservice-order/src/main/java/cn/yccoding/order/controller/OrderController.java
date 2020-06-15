@@ -1,21 +1,22 @@
 package cn.yccoding.order.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.BeanUtils;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.web.bind.annotation.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * @author YC
  * @since 2020/6/5 18:25
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/orders")
 public class OrderController {
@@ -52,21 +53,21 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-    public RespResult updateById(@RequestBody Order order, @PathVariable Integer id) {
+    public RespResult updateById(@PathVariable Integer id, @RequestBody Order order) {
         for (Order o : orders) {
             if (o.id == id) {
-                BeanUtils.copyProperties(order,o);
+                BeanUtils.copyProperties(order, o);
                 break;
             }
         }
-        RespResult result = new RespResult(20000, "更新成功",null);
+        RespResult result = new RespResult(20000, "更新成功", null);
         return result;
     }
 
     @PostMapping
     public RespResult save(@RequestBody Order order) {
         orders.add(order);
-        RespResult result = new RespResult(20000, "保存成功",null);
+        RespResult result = new RespResult(20000, "保存成功", null);
         return result;
     }
 
@@ -76,7 +77,7 @@ public class OrderController {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    static class RespResult {
+    class RespResult {
         private long code;
         private String message;
         private Map<String, Object> data;
@@ -88,7 +89,7 @@ public class OrderController {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    static class Order {
+    class Order {
         private Integer id;
         private String product;
         private Integer total;

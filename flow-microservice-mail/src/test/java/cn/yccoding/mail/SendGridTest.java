@@ -100,8 +100,9 @@ public class SendGridTest {
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
-        messageHelper.setFrom("yuan691409320@gmail.com");
-        messageHelper.setTo("chao.yuan2@pacteraedge.com");
+        messageHelper.setFrom("test@example.com");
+        String[] tos = {"test@example.com"};
+        messageHelper.setTo(tos);
         messageHelper.setSubject("test");
         messageHelper.setText(html, true);
 
