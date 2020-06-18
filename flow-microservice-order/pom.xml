@@ -26,6 +26,15 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+        <!--fastjson-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.yccoding</groupId>
+            <artifactId>flow-framework-common</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.yccoding.common.vo.R;
+import cn.yccoding.order.form.Order;
+import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +23,7 @@ import lombok.NoArgsConstructor;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1/orders")
+@Slf4j
 public class OrderController {
 
     Order order1 = new Order(1, "apple", 12, "aaa");
@@ -33,66 +38,43 @@ public class OrderController {
      * 获取所有订单数据
      */
     @GetMapping("/list")
-    public RespResult listUsers() {
+    public R listUsers() {
         Map<String, Object> data = new HashMap<>();
         data.put("items", orders);
-        RespResult result = new RespResult(20000, "请求成功", data);
-        return result;
+        return R.ok().data(data);
     }
 
     /**
      * 获取指定id订单
      */
     @GetMapping("/{id}")
-    public RespResult findById(@PathVariable Integer id) {
+    public R findById(@PathVariable Integer id) {
         Order order = this.orders.stream().filter(i -> i.getId() == id).findFirst().orElse(null);
         Map<String, Object> data = new HashMap<>();
         data.put("item", order);
-        RespResult result = new RespResult(20000, "请求成功", data);
-        return result;
+        return R.ok().data(data);
     }
 
     @PutMapping("/{id}")
-    public RespResult updateById(@PathVariable Integer id, @RequestBody Order order) {
+    public R updateById(@PathVariable Integer id, @RequestBody(required = false) Order order) {
+        log.info("准备更新订单...[{}]",order);
+        if (order == null) {
+            return R.ok().message("更新成功null");
+        }
         for (Order o : orders) {
-            if (o.id == id) {
+            if (o.getId() == id) {
                 BeanUtils.copyProperties(order, o);
                 break;
             }
         }
-        RespResult result = new RespResult(20000, "更新成功", null);
-        return result;
+        return R.ok().message("更新成功");
     }
 
     @PostMapping
-    public RespResult save(@RequestBody Order order) {
+    public R save(@RequestBody Order order) {
         orders.add(order);
-        RespResult result = new RespResult(20000, "保存成功", null);
-        return result;
+        return R.ok().message("保存成功");
     }
 
-    /**
-     * 通用结果类
-     */
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    class RespResult {
-        private long code;
-        private String message;
-        private Map<String, Object> data;
-    }
 
-    /**
-     * 订单类
-     */
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    class Order {
-        private Integer id;
-        private String product;
-        private Integer total;
-        private String description;
-    }
 }
