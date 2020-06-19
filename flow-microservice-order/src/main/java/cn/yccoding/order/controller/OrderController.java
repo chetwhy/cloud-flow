@@ -5,16 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.yccoding.common.vo.R;
-import cn.yccoding.order.form.Order;
-import com.alibaba.fastjson.JSON;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import cn.yccoding.common.vo.R;
+import cn.yccoding.order.form.Order;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author YC
@@ -57,7 +53,7 @@ public class OrderController {
 
     @PutMapping("/{id}")
     public R updateById(@PathVariable Integer id, @RequestBody(required = false) Order order) {
-        log.info("准备更新订单...[{}]",order);
+        log.info("准备更新订单...[{}]", order);
         if (order == null) {
             return R.ok().message("更新成功null");
         }
@@ -70,11 +66,10 @@ public class OrderController {
         return R.ok().message("更新成功");
     }
 
-    @PostMapping
-    public R save(@RequestBody Order order) {
-        orders.add(order);
+    @PostMapping("/aaa")
+    public R save(@RequestBody(required = false) Order order) {
+        log.info("准备新增订单...[{}]", order);
         return R.ok().message("保存成功");
     }
-
 
 }
