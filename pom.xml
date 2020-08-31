@@ -38,6 +38,7 @@
         <azure-storage.version>0.2.0</azure-storage.version>
         <sqlserver.version>6.4.0.jre8</sqlserver.version>
         <sendgrid.version>4.2.1</sendgrid.version>
+        <hutool.version>5.4.1</hutool.version>
     </properties>
 
     <dependencyManagement>
@@ -90,6 +91,13 @@
                 <artifactId>sendgrid-java</artifactId>
                 <version>${sendgrid.version}</version>
             </dependency>
+            <!--hutool-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
