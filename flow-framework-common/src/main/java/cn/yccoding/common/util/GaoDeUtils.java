@@ -22,7 +22,7 @@ public class GaoDeUtils {
     /**
      * web服务api key
      */
-    public static final String KEY = "26fcb528c74a79f3847f764fde103127";
+    public static final String KEY = "***";
 
     /**
      * 地理编码 API 服务地址
