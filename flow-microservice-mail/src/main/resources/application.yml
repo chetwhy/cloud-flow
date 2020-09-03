@@ -1,6 +1,0 @@
-server:
-  port: 9410
-
-spring:
-  application:
-    name: flow-mail

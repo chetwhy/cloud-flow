@@ -1,6 +1,6 @@
 package cn.yccoding.common.vo;
 
-import cn.yccoding.common.contants.ResultCodeEnum;
+import cn.yccoding.common.contant.ResultCodeEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

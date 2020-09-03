@@ -1,12 +1,12 @@
 package cn.yccoding.pay.service;
 
+import cn.hutool.json.JSONUtil;
 import cn.yccoding.common.util.CurrencyUtils;
 import cn.yccoding.pay.form.*;
 import cn.yccoding.pay.sdk.PaymentConstants;
 import cn.yccoding.pay.sdk.WXPay;
 import cn.yccoding.pay.sdk.WXPayUtil;
 import cn.yccoding.pay.util.SignatureUtils;
-import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,16 +26,21 @@ public class PaymentService {
 
     @Autowired
     private WXPay wxPay;
+    @Autowired
+    private PaymentService paymentService;
+    @Autowired
+    private TokenService tokenService;
 
     /**
      * 统一下单接口，输入指定参数，只关心必要参数
-     * @param openid        用户在公众号的唯一识别号
-     * @param tradeType     交易类型
-     * @param price         价格
-     * @param productDesc   商品描述
-     * @param terminalIP    终端ip
-     * @param requestUrl    请求来源的url
-     * @return  返回js校验参数的的map
+     *
+     * @param openid      用户在公众号的唯一识别号
+     * @param tradeType   交易类型
+     * @param price       价格
+     * @param productDesc 商品描述
+     * @param terminalIP  终端ip
+     * @param requestUrl  请求来源的url
+     * @return 返回js校验参数的的map
      */
     public Map<String, Object> unifiedorder(String openid, String tradeType, String price, String productDesc,
                                             String terminalIP, String requestUrl) {
@@ -59,7 +64,7 @@ public class PaymentService {
                     && respMap.get("result_code").equals((PaymentConstants.SUCCESS))) {
                 String prepayId = respMap.get("prepay_id");
                 return SignatureUtils.permissionValidate(APP_ID, nonceStr, requestUrl, prepayId,
-                        API_KEY,tokenService.getJsApiTicket(tokenService.getAccessToken(APP_ID)));
+                        API_KEY, tokenService.getJsApiTicket(tokenService.getAccessToken(APP_ID)));
             } else if (!respMap.get("return_code").equals(PaymentConstants.SUCCESS)) {
                 Map<String, Object> map = new HashMap<>();
                 for (String key : respMap.keySet()) {
@@ -73,16 +78,11 @@ public class PaymentService {
         return null;
     }
 
-    @Autowired
-    private PaymentService paymentService;
-
-    @Autowired
-    private TokenService tokenService;
-
     /**
      * 通用微信支付的调用方法，参数灵活
+     *
      * @param requestForm UnifiedOrderRequestEntity统一下单的实体类
-     * @param requestUrl    请求来源的url
+     * @param requestUrl  请求来源的url
      * @return
      */
     public Map<String, Object> unifiedorder(UnifiedOrderRequestForm requestForm, String requestUrl) {
@@ -95,7 +95,7 @@ public class PaymentService {
                     && respMap.get("result_code").equals((PaymentConstants.SUCCESS))) {
                 String prepayId = respMap.get("prepay_id");
                 return SignatureUtils.permissionValidate(APP_ID, nonceStr, requestUrl, prepayId,
-                        API_KEY,tokenService.getJsApiTicket(tokenService.getAccessToken(APP_ID)));
+                        API_KEY, tokenService.getJsApiTicket(tokenService.getAccessToken(APP_ID)));
             } else if (!respMap.get("return_code").equals(PaymentConstants.SUCCESS)) {
                 Map<String, Object> map = new HashMap<>();
                 for (String key : respMap.keySet()) {
@@ -300,10 +300,10 @@ public class PaymentService {
      * @return
      */
     private Map<String, String> beanToMap(Object obj) {
-        Map<String, Object> map = JSON.parseObject(JSON.toJSONString(obj));
+        Map<String, Object> map = JSONUtil.toBean(JSONUtil.toJsonStr(obj), Map.class);
         Map<String, String> resultMap = new HashMap<>();
         for (String key : map.keySet()) {
-            resultMap.put(key, (String)map.get(key));
+            resultMap.put(key, (String) map.get(key));
         }
         return resultMap;
     }
@@ -314,7 +314,7 @@ public class PaymentService {
      * @return
      */
     public String generateRandomOrderNo() {
-        int number = (int)((Math.random() * 9) * 1000);// 随机数
+        int number = (int) ((Math.random() * 9) * 1000);// 随机数
         String nowStr = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         return nowStr + number;
     }

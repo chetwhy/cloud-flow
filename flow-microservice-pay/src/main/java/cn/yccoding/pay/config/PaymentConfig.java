@@ -1,11 +1,9 @@
 package cn.yccoding.pay.config;
 
-import cn.yccoding.common.contants.ResultCodeEnum;
 import cn.yccoding.common.exception.CustomException;
 import cn.yccoding.pay.sdk.WXPay;
 import cn.yccoding.pay.sdk.WXPayConfigImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,7 +22,7 @@ public class PaymentConfig {
             wxPay = new WXPay(new WXPayConfigImpl());
         } catch (Exception e) {
             log.error("创建默认wxpay实列失败:[{}]", e.getMessage());
-            throw new CustomException(ResultCodeEnum.CREATE_WXPAY_BEAN_FAIL);
+            throw new CustomException(500, "创建实例失败");
         }
         return wxPay;
     }

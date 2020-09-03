@@ -1,7 +1,8 @@
 package cn.yccoding.common.exception;
 
-import cn.yccoding.common.contants.ResultCodeEnum;
+import cn.yccoding.common.contant.ResultCodeEnum;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Author YC

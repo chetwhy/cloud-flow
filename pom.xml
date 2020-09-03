@@ -4,14 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <modules>
-        <module>flow-microservice-gzh</module>
         <module>flow-framework-common</module>
-        <module>flow-microservice-blob</module>
-        <module>flow-microservice-manage</module>
-        <module>flow-microservice-mail</module>
-        <module>flow-microservice-ucenter</module>
+        <module>flow-microservice-admin</module>
+        <module>flow-microservice-member</module>
         <module>flow-microservice-pay</module>
         <module>flow-microservice-order</module>
+        <module>flow-framework-mbg</module>
     </modules>
     <!--模块信息-->
     <groupId>cn.yccoding</groupId>
@@ -24,20 +22,22 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.7.RELEASE</version>
+        <version>2.1.7.RELEASE</version>
     </parent>
 
     <!--版本信息-->
     <properties>
+        <skipTests>true</skipTests>
         <java.version>1.8</java.version>
+        <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
+        <druid.version>1.1.10</druid.version>
+        <hutool.version>4.5.7</hutool.version>
         <lombok.version>1.16.22</lombok.version>
         <fastjson.version>1.2.58</fastjson.version>
-        <jasypt.version>2.1.0</jasypt.version>
         <common.version>1.0-SNAPSHOT</common.version>
-        <javax.version>2.3.1</javax.version>
-        <azure-storage.version>0.2.0</azure-storage.version>
-        <sqlserver.version>6.4.0.jre8</sqlserver.version>
-        <sendgrid.version>4.2.1</sendgrid.version>
+        <mysql-connector.version>8.0.15</mysql-connector.version>
+        <mybatis-plus.version>3.3.1</mybatis-plus.version>
+        <velocity.version>2.0</velocity.version>
     </properties>
 
     <dependencyManagement>
@@ -60,35 +60,40 @@
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
             </dependency>
-            <!-- jasypt加密 -->
+            <!--hutool工具包-->
             <dependency>
-                <groupId>com.github.ulisesbocchio</groupId>
-                <artifactId>jasypt-spring-boot-starter</artifactId>
-                <version>${jasypt.version}</version>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
-            <!--javax-->
+            <!--druid连接池-->
             <dependency>
-                <groupId>javax.xml.bind</groupId>
-                <artifactId>jaxb-api</artifactId>
-                <version>${javax.version}</version>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
             </dependency>
-            <!--azure storage -->
+            <!--mysql-->
             <dependency>
-                <groupId>com.microsoft.azure</groupId>
-                <artifactId>azure-storage-spring-boot-starter</artifactId>
-                <version>${azure-storage.version}</version>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+            <!--mybatis-plus-->
             <dependency>
-                <groupId>com.microsoft.sqlserver</groupId>
-                <artifactId>mssql-jdbc</artifactId>
-                <version>${sqlserver.version}</version>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
             </dependency>
-            <!--sendgrid -->
             <dependency>
-                <groupId>com.sendgrid</groupId>
-                <artifactId>sendgrid-java</artifactId>
-                <version>${sendgrid.version}</version>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!-- velocity 模板引擎 -->
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

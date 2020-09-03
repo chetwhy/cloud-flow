@@ -1,0 +1,40 @@
+server:
+  port: 9610
+  # tomcat的最大并发值修
+  tomcat:
+    max-threads: 100
+
+spring:
+  # redis 配置
+  redis:
+    #redis数据库，默认是0
+    database: 0
+    #redis服务器地址
+    host: localhost
+    #redis服务端口，默认6379
+    port: 6379
+    #redis密码，默认为空
+    password: 1234
+    #超时
+    timeout: 5000ms
+  # mysql数据源配置
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/flow_single?characterEncoding=utf8&useSSL=false
+    username: root
+    password: 1234
+    druid:
+      #连接池初始化大小
+      initial-size: 5
+      #最小空闲连接数
+      min-idle: 10
+      #最大连接数
+      max-active: 20
+      web-stat-filter:
+        #不统计这些请求数据
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" #不统计这些请求数据
+      #访问监控网页的登录用户名和密码
+      stat-view-servlet:
+        login-username: druid
+        login-password: druid
+
