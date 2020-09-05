@@ -21,4 +21,11 @@ public interface MemberService extends IService<Member> {
      * @return
      */
     List<Member> getByPhone(String phone);
+
+    /**
+     * 根据用户名查找会员
+     * @param username
+     * @return
+     */
+    List<Member> getByUsername(String username);
 }

@@ -1,5 +1,6 @@
 package cn.yccoding.member.service;
 
+import cn.yccoding.member.domain.entity.Member;
 import cn.yccoding.member.object.RegisterQo;
 
 /**
@@ -11,7 +12,7 @@ import cn.yccoding.member.object.RegisterQo;
 public interface SsoService {
 
     /**
-     * 用户注册前，获取验证码
+     * 注册会员前，获取验证码
      *
      * @param phone
      * @return
@@ -22,4 +23,12 @@ public interface SsoService {
      * 会员注册
      */
     boolean register(RegisterQo registerQo);
+
+    /**
+     * 会员登录
+     * @param username
+     * @param password
+     * @return
+     */
+    Member login(String username, String password);
 }

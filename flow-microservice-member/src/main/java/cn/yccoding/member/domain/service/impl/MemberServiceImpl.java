@@ -26,4 +26,9 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     public List<Member> getByPhone(String phone) {
         return this.list(Wrappers.<Member>lambdaQuery().select(Member::getId).eq(Member::getPhone, phone));
     }
+
+    @Override
+    public List<Member> getByUsername(String username) {
+        return this.list(Wrappers.<Member>lambdaQuery().select(Member::getId,Member::getUsername,Member::getPassword).eq(Member::getUsername, username));
+    }
 }

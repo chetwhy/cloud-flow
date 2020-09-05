@@ -1,6 +1,6 @@
 package cn.yccoding.pay.service;
 
-import cn.yccoding.common.form.RedisInfo;
+import cn.yccoding.pay.base.RedisInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisStringCommands;
@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -75,15 +76,10 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public String get(String key) {
-        try {
-            byte[] bytes = execute().get(key.getBytes());
-            if (bytes != null) {
-                return new String(bytes, "utf-8");
-            } else {
-                return null;
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        byte[] bytes = execute().get(key.getBytes());
+        if (bytes != null) {
+            return new String(bytes, StandardCharsets.UTF_8);
+        } else {
             return null;
         }
     }
@@ -96,7 +92,7 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public Boolean set(String key, String value, Long timeout) {
         return execute().set(key.getBytes(), value.getBytes(), Expiration.milliseconds(timeout),
-            RedisStringCommands.SetOption.UPSERT);
+                RedisStringCommands.SetOption.UPSERT);
     }
 
     @Override

@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 @ConfigurationProperties(prefix = "redis.key")
-public class RedisKeyPrefixConfig {
-    private RedisKeyPrefixConfig.Prefix prefix;
+public class RedisKeyProperties {
+    private RedisKeyProperties.Prefix prefix;
 
-    private RedisKeyPrefixConfig.Expire expire;
+    private RedisKeyProperties.Expire expire;
 
     @Data
     public static class Prefix {
@@ -26,7 +26,6 @@ public class RedisKeyPrefixConfig {
 
     @Data
     public static class Expire {
-
         private Long otpCode;
 
     }

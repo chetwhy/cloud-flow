@@ -1,6 +1,6 @@
 package cn.yccoding.pay.service;
 
-import cn.yccoding.common.form.RedisInfo;
+import cn.yccoding.pay.base.RedisInfo;
 
 import java.util.List;
 import java.util.Map;

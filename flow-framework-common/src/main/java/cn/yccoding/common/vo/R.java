@@ -3,12 +3,17 @@ package cn.yccoding.common.vo;
 import cn.yccoding.common.base.ResultCodeEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static cn.yccoding.common.base.ResultCodeEnum.SUCCESS;
+import static cn.yccoding.common.base.ResultCodeEnum.UNKNOWN_ERROR;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.OK;
 
 /**
  * @Author YC
@@ -51,9 +56,9 @@ public class R {
      */
     public static R ok() {
         return new R()
-                .setSuccess(ResultCodeEnum.SUCCESS.isSuccess())
-                .setCode(ResultCodeEnum.SUCCESS.getCode())
-                .setMessage(ResultCodeEnum.SUCCESS.getMessage());
+                .setSuccess(SUCCESS.isSuccess())
+                .setCode(SUCCESS.getCode())
+                .setMessage(SUCCESS.getMessage());
     }
 
     /**
@@ -63,9 +68,9 @@ public class R {
      */
     public static R error() {
         return new R()
-                .setSuccess(ResultCodeEnum.UNKNOWN_ERROR.isSuccess())
-                .setCode(ResultCodeEnum.UNKNOWN_ERROR.getCode())
-                .setMessage(ResultCodeEnum.UNKNOWN_ERROR.getMessage());
+                .setSuccess(UNKNOWN_ERROR.isSuccess())
+                .setCode(UNKNOWN_ERROR.getCode())
+                .setMessage(UNKNOWN_ERROR.getMessage());
     }
 
     /**
@@ -141,17 +146,12 @@ public class R {
     /**
      * 返回标准实体类
      *
-     * @param httpHeaders
      * @return
      */
-    public ResponseEntity<R> buildResponseEntity(HttpHeaders httpHeaders) {
-        HttpStatus httpStatus;
-        if (this.isSuccess()) {
-            httpStatus = HttpStatus.OK;
-        }else {
-            httpStatus = HttpStatus.BAD_REQUEST;
-        }
-        return new ResponseEntity<>(this, httpHeaders, httpStatus);
+    public ResponseEntity<R> buildResponseEntity() {
+        HttpStatus httpStatus = this.isSuccess() ?
+                OK : BAD_REQUEST;
+        return new ResponseEntity<>(this, httpStatus);
     }
 
     /**
@@ -159,13 +159,27 @@ public class R {
      *
      * @return
      */
-    public ResponseEntity<R> buildResponseEntity() {
-        HttpStatus httpStatus;
-        if (this.isSuccess()) {
-            httpStatus = HttpStatus.OK;
-        }else {
-            httpStatus = HttpStatus.BAD_REQUEST;
-        }
+    public ResponseEntity<R> buildResponseEntity(HttpStatus httpStatus) {
         return new ResponseEntity<>(this, httpStatus);
+    }
+
+    /**
+     * 返回标准实体类
+     *
+     * @param headers
+     * @return
+     */
+    public ResponseEntity<R> buildResponseEntity(MultiValueMap<String, String> headers) {
+        HttpStatus httpStatus = this.isSuccess() ? OK : BAD_REQUEST;
+        return new ResponseEntity<>(this, headers, httpStatus);
+    }
+
+    /**
+     * 返回标准实体类
+     *
+     * @return
+     */
+    public ResponseEntity<R> buildResponseEntity(MultiValueMap<String, String> headers, HttpStatus httpStatus) {
+        return new ResponseEntity<>(this, headers, httpStatus);
     }
 }
