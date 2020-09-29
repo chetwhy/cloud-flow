@@ -1,0 +1,74 @@
+server:
+  port: 9110
+  # tomcat的最大并发值修
+  tomcat:
+    max-threads: 100
+
+spring:
+  application:
+    name: flow-member
+  # redis 配置
+  redis:
+    #redis数据库，默认是0
+    database: 0
+    #redis服务器地址
+    host: localhost
+    #redis服务端口，默认6379
+    port: 6379
+    #redis密码，默认为空
+    password:
+    #超时
+    timeout: 5000ms
+  # mysql数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-test-query: SELECT 1 FROM DUAL
+      connection-timeout: 60000
+      idle-timeout: 500000
+      max-lifetime: 540000
+      maximum-pool-size: 12
+      minimum-idle: 10
+      pool-name: GuliHikariPool
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/flow_single?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1234
+
+  # spring session 会员存储
+#  session:
+#    store-type: redis
+
+# mybatis日志
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: flag  # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:cn/yccoding/member/domain/mapper/xml/*.xml
+
+
+####### 自定义属性健
+# 自定义redis键值
+redis:
+  key:
+    prefix:
+      otpCode: "member:otpCode:" #动态校验码前缀
+    expire:
+      otpCode: 60 #动态校验码过期时间
+#登录拦截验证
+member:
+  auth:
+    # 免拦截
+    shouldSkipUrls:
+      - /sso/**
+      - /home/**
+#jwt配置
+jwt:
+  header: Authorization #JWT存储的请求头
+  secret: mall-member-secret #JWT加解密使用的密钥
+  expire: 604800 #JWT的超期限时间(60*60*24)
+  prefix: Bearer #JWT负载中拿到开头

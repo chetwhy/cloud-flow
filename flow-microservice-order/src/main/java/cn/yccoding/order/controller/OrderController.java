@@ -1,79 +1,74 @@
 package cn.yccoding.order.controller;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import cn.yccoding.common.vo.R;
+import cn.yccoding.order.feignapi.AliPayFeignApi;
+import cn.yccoding.order.model.TradePaySummary;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
+ * 订单
+ *
  * @author YC
- * @since 2020/6/5 18:25
+ * @since 2020/9/26
  */
+@Slf4j
 @RestController
-@RequestMapping("/api/v1/orders")
+@RequestMapping("/order")
 public class OrderController {
 
-    User user1 = new User(1, "apple", 12, "aaa");
-    User user2 = new User(2, "amazon", 16, "bbb");
-    User user3 = new User(3, "mi", 18, "ccc");
-    User user4 = new User(4, "face", 5, "ddd");
-
-    // 默认订单数据集合
-    public List<User> users = Arrays.asList(user1, user2, user3, user4);
+    @Autowired
+    private AliPayFeignApi aliPayFeignApi;
 
     /**
-     * 获取所有订单数据
-     */
-    @GetMapping("/list")
-    public RespResult listUsers() {
-        Map<String, Object> data = new HashMap<>();
-        data.put("items", users);
-        RespResult result = new RespResult(20000, "请求成功", data);
-        return result;
-    }
-
-    /**
-     * 获取指定id订单
+     * 测试方法
+     * @param id
+     * @return
      */
     @GetMapping("/{id}")
-    public RespResult findById(@PathVariable Integer id) {
-        User user = this.users.stream().filter(i -> i.getId() == id).findFirst().orElse(null);
-        Map<String, Object> data = new HashMap<>();
-        data.put("item", user);
-        RespResult result = new RespResult(20000, "请求成功", data);
-        return result;
+    public ResponseEntity<R> getOrderById(@PathVariable String id) {
+        log.info("获取订单id=->{}", id);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("price", "100");
+        map.put("date", LocalDateTime.now().toString());
+        return R.ok().message("订单详情").data("item",map).buildResponseEntity();
     }
 
     /**
-     * 通用结果类
+     * 支付宝支付
+     * @return
      */
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    static class RespResult {
-        private long code;
-        private String message;
-        private Map<String, Object> data;
-    }
-
-    /**
-     * 订单类
-     */
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    static class User {
-        private Integer id;
-        private String product;
-        private Integer total;
-        private String description;
+    @PostMapping("/ali-pay")
+    public ResponseEntity<R> doOrder() {
+        log.info("测试支付宝支付...");
+        TradePaySummary summary = new TradePaySummary();
+        summary.setSubject("测试支付宝当面付");
+        summary.setOperatorId("yc");
+        summary.setStoreId("yc");
+        TradePaySummary.Item item = new TradePaySummary.Item();
+        item.setGoodsId("1001");
+        item.setGoodsName("测试商品");
+        item.setPrice("1");
+        item.setQuantity(1);
+        summary.setItems(Arrays.asList(item));
+        String qrcode = aliPayFeignApi.f2fPayTradePay(summary);
+        if (StringUtils.isEmpty(qrcode)) {
+            return R.error().message("网络繁忙").buildResponseEntity();
+        }
+        // TODO 保存订单，更新状态
+        return R.ok().message("测试成功").data("qrcode",qrcode).buildResponseEntity();
     }
 }

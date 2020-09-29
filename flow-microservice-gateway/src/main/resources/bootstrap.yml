@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: flow-gateway
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848

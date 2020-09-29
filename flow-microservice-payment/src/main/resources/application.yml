@@ -1,0 +1,38 @@
+server:
+  port: 9150
+  tomcat:
+    max-threads: 100
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    sentinel:
+      transport:
+        dashboard: 127.0.0.1:8080
+#开启SpringBoot Admin的监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+
+###### 自定义
+# 自定义redis键值
+redis:
+  key:
+    prefix:
+      wx-token: "payment:wx-token:"
+    expire:
+      wx-token: 180
+trade:
+  ali-pay:
+    qrcode:
+      store-path: /Users/yc/temp/qr-code/alipay # 本地文件绝对路径路径
+      http-base-path: /static/qrcode/alipay # http访问的url路径,对应store-path
+    callback-url: http://chetwhy.free.idcfengye.com/ali-pay/f2f/callback # 支付宝支付的回调地址
+  wechat-pay:
+    qrcode:
+      store-path: /Users/yc/temp/qr-code/wechat # 本地文件绝对路径路径
+    callback-url: http://chetwhy.free.idcfengye.com/wechat-pay/f2f/callback # 微信支付的回调地址

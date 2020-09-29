@@ -1,0 +1,15 @@
+server:
+  port: 9999
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always # 打开端点详情
