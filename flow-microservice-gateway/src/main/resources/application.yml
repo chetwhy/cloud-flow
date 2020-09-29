@@ -1,0 +1,30 @@
+server:
+  port: 8888
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 开启gateway从nacos上获取服务列表
+          lower-case-service-id: true
+      routes:
+        - id: service-order
+          uri: lb://service-order
+          predicates: # 路径断言
+            - Path=/consumer/**,/order/**
+        - id: service-product
+          uri: lb://service-product
+          predicates:
+            - Path=/producer/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always # 打开端点详情

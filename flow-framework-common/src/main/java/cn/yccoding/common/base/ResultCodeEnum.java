@@ -35,7 +35,19 @@ public enum ResultCodeEnum {
     EXISTED_USER(false, 41000, "用户已存在"),
     INCORRECT_OPTCODE(false, 41001, "验证码未过期"),
     UNMATCH_OPTCODE(false, 41002, "验证码不匹配"),
-    UNAUTHORIZED(false, 41003, "未登录或token已经过期"), ;
+    UNAUTHORIZED(false, 41003, "未登录或token已经过期"),
+    AUTHORIZATION_HEADER_IS_EMPTY(false, 41004, "请求头无授权信息"),
+    AUTHORIZATION_INVALID(false,41005, "无效的token信息"),
+    TOKEN_EXPIRED(false, 41006, "token已过期"),
+    ACCESS_FORBIDEN(false, 41007, "没有访问权限"),
+
+    /**
+     * wechat pay
+     */
+    WXPAY_INSTANCE_CREATE_FAIL(false, 51001, "微信支付实例创建失败"),
+    WXPAY_REQUEST_FAILED(false, 51002, "微信支付接口请求失败"),
+    WXPAY_FETCH_TOKEN_FAILED(false, 51003, "微信公众号获取access token失败"),
+    ALIPAY_CALLBACK_CHECK_FAILED(false, 52001, "支付宝支付回调结果验签失败"),;
 
     /**
      * 响应是否成功

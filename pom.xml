@@ -5,10 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>flow-framework-common</module>
-        <module>flow-microservice-pay</module>
         <module>flow-microservice-order</module>
         <module>flow-framework-mbg</module>
         <module>flow-microservice-member</module>
+        <module>flow-microservice-product</module>
+        <module>flow-microservice-gateway</module>
+        <module>flow-microservice-authcenter</module>
+        <module>flow-microservice-payment</module>
     </modules>
     <!--模块信息-->
     <groupId>cn.yccoding</groupId>
@@ -38,6 +41,7 @@
         <mybatis-plus.version>3.4.0</mybatis-plus.version>
         <velocity.version>2.0</velocity.version>
         <jjwt.version>0.9.0</jjwt.version>
+        <spring-cloud-alibaba.version>2.1.1.RELEASE</spring-cloud-alibaba.version>
     </properties>
 
     <dependencyManagement>
@@ -100,6 +104,22 @@
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
                 <version>${jjwt.version}</version>
+            </dependency>
+            <!--spring cloud alibaba-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--Spring Cloud-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
