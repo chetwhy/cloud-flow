@@ -12,6 +12,7 @@
         <module>flow-microservice-gateway</module>
         <module>flow-microservice-authcenter</module>
         <module>flow-microservice-payment</module>
+        <module>flow-framework-demo</module>
     </modules>
     <!--模块信息-->
     <groupId>cn.yccoding</groupId>
