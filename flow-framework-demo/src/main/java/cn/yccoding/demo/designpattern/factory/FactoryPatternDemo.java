@@ -1,7 +1,5 @@
 package cn.yccoding.demo.designpattern.factory;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
-
 /**
  * 工厂模式--演示类
  *
