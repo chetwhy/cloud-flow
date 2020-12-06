@@ -9,6 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <description>demo包</description>
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
 
     <artifactId>flow-framework-demo</artifactId>
 
