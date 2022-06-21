@@ -38,7 +38,7 @@
         <lombok.version>1.16.22</lombok.version>
         <fastjson.version>1.2.58</fastjson.version>
         <common.version>1.0-SNAPSHOT</common.version>
-        <mysql-connector.version>8.0.16</mysql-connector.version>
+        <mysql-connector.version>8.0.28</mysql-connector.version>
         <mybatis-plus.version>3.4.0</mybatis-plus.version>
         <velocity.version>2.0</velocity.version>
         <jjwt.version>0.9.0</jjwt.version>
